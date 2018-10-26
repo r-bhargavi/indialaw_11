@@ -1,0 +1,165 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+        <record id="view_hr_overtime_filter" model="ir.ui.view">
+            <field name="name">hr.overtime.filter</field>
+            <field name="model">hr.overtime</field>
+            <field name="arch" type="xml">
+                <search string="Search Overtime">
+                    <group col='8' colspan='4' string="Filter By...">
+                        <filter icon="terp-camera_test" domain="[('state','=','validate')]" string="Validated"/>
+                        <separator orientation="vertical"/>
+                        <filter icon="terp-check" domain="[('state','=','draft')]" string="To Confirm"/>
+                        <filter icon="terp-camera_test" domain="[('state','=','confirm')]" string="To Approve"/>
+                        <separator orientation="vertical"/>
+                        <field name="employee_id">
+                            <filter icon="terp-personal"
+                                name="my_overtime"
+                                domain="[('employee_id.user_id','=', uid)]"
+                                help="My overtime" />
+                        </field>
+                        <field name="department_id" widget="selection">
+                            <filter icon="terp-personal+" help="My Department Overtime"
+                                domain="[('department_id.manager_id','=',uid)]" />
+                        </field>
+                        <field name="overtime_type_id" widget="selection"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Extended Filters...">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter name="group_employee" string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Manager" icon="terp-personal" domain="[]" context="{'group_by':'manager_id'}"/>
+                        <filter string="Department" icon="terp-personal+" domain="[]" context="{'group_by':'department_id','set_visible':True}"/>
+                        <separator orientation="vertical"/>
+                        <filter name="group_type" string="Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'overtime_type_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="edit_overtime_new">
+            <field name="name">Overtime Request</field>
+            <field name="model">hr.overtime</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Overtime Request">
+                        <header>
+                            <button string="Refuse" name="overtime_refuse" states="confirm,validate1" type="object" icon="gtk-no" groups="hr.group_hr_user,hr.group_hr_manager"/>
+                            <button string="Confirm" name="overtime_confirm" states="draft" type="object" icon="gtk-yes"/>
+                            <button string="Approve" name="overtime_validate" states="confirm" type="object" icon="gtk-apply" groups="hr.group_hr_user"/>
+                            <button string="Approved" name="overtime_validate2" states="validate1" type="object" icon="gtk-apply" groups="hr.group_hr_user"/>
+                            <button string="Set to Draft" name="set_to_draft" states="refuse" type="object" icon="gtk-convert" groups="hr.group_hr_user"/>
+                            <field name="state" widget="statusbar" statusbar_visible="draft,confirm,refuse,validate1,validate" statusbar_colors='{"refuse":"red","draft":"blue"}'/>
+                        </header>
+                        <newline/>
+                        <sheet>
+
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            </h1>
+                        </div>
+                                <newline/>
+                            <field name="double_validate" invisible="1"/>
+                                <group string="General" colspan="4" col="4">
+	                                <field name="overtime_type_id"/>
+	                                <field name="employee_id" required="1"/>
+	                                <field name="department_id"  options='{"no_open":True}'/>
+	                                <newline/>
+	                                <field name="date_from" required="1"/>
+	                                <field name="date_to" required="1"/>
+	                                <field name="number_of_hours_temp"/>
+	                                <newline/>
+	                                <field name="manager_id"/>
+	                                <field name="manager_id2" attrs="{'invisible':[('double_validate','=',False)]}"/>
+	                                <separator string="Reasons" colspan="4"/>
+	                                <field name="notes" nolabel="1" colspan="4"/>
+	                                <newline/>
+	                          </group>
+
+                        </sheet>
+                   </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_overtime_simple">
+            <field name="name">hr.overtime.report_tree</field>
+            <field name="model">hr.overtime</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <tree colors="red:state in ('refuse');blue:state in (' draft');black:state in ('confirm','validate','validate1')" string="Overtime Summary">
+                    <field name="employee_id"/>
+                    <field name="department_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="overtime_type_id"/>
+                    <field name="number_of_hours" string="Number of hours" sum='Number of hours'/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="manager_id" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_overtime">
+            <field name="name">hr.overtime.tree</field>
+            <field name="model">hr.overtime</field>
+            <field name="arch" type="xml">
+                <tree string="Overtime Detail" colors="red:state in ('refuse');blue:state in (' draft');black:state in ('confirm','validate','validate1')">
+                    <field name="employee_id"/>
+                    <field name="department_id" invisible="not context.get('set_visible',False)"/>
+                    <field name="name"/>
+                    <field name="overtime_type_id"/>
+                    <field name="number_of_hours" string="Number of Hours" sum='Number of Hours'/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="manager_id" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem
+            name="Overtime"
+            parent="hr.menu_hr_root"
+            id="menu_open_ask_overtime"
+            sequence="5"/>
+
+        <record model="ir.actions.act_window" id="open_ask_overtime">
+            <field name="name">Overtime Requests</field>
+            <field name="res_model">hr.overtime</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="edit_overtime_new"/>
+            <field name="context">{"search_default_my_leaves": 1}</field>
+            <field name="search_view_id" ref="view_hr_overtime_filter"/>
+            <field name="help">Overtime requests can be recorded by employees and validated by their managers. Once a leave request is validated, it appears automatically in the agenda of the employee.</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_open_ask_overtime_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_overtime"/>
+            <field name="act_window_id" ref="open_ask_overtime"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_open_ask_overtime_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="edit_overtime_new"/>
+            <field name="act_window_id" ref="open_ask_overtime"/>
+        </record>
+
+        <menuitem name="Overtime Requests" parent="menu_open_ask_overtime" id="menu_open_ask_overtime_new"
+             action="open_ask_overtime" />
+    </data>
+</odoo>

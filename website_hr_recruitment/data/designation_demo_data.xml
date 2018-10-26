@@ -1,0 +1,104 @@
+<!-- This is Default Data For Job Position-->
+<odoo>
+    <data noupdate="1">
+	    <record model="hr.job" id="de1">
+	        <field name="name">Lawyer-Analyst</field>
+	    </record>
+	    <record model="hr.job" id="de2">
+	        <field name="name">Lawyer-Articled Clerk</field>
+	    </record>
+	    <record model="hr.job" id="de3">
+	        <field name="name">Lawyer-Associate</field>
+	    </record>
+	    <record model="hr.job" id="de4">
+	        <field name="name">Lawyer-Company</field>
+	    </record>
+	    <record model="hr.job" id="de5">
+	        <field name="name">Lawyer-Secretary</field>
+	    </record>
+	    <record model="hr.job" id="de6">
+	        <field name="name">Lawyer-Consultant</field>
+	    </record>
+	    <record model="hr.job" id="de7">
+	        <field name="name">Lawyer-Counsel</field>
+	    </record>
+	    <record model="hr.job" id="de8">
+	        <field name="name">Lawyer-Paralegal</field>
+	    </record>
+	    <record model="hr.job" id="de9">
+	        <field name="name">Lawyer-Partner</field>
+	    </record>
+	    <record model="hr.job" id="de10">
+	        <field name="name">Lawyer-Practice Head</field>
+	    </record>
+	    <record model="hr.job" id="de11">
+	        <field name="name">Lawyer-Sr.Articled Clerk</field>
+	    </record>
+	    <record model="hr.job" id="de12">
+	        <field name="name">Lawyer-Sr.Consultant</field>
+	    </record>
+	    <record model="hr.job" id="de13">
+	        <field name="name">Non-Lawyer-A/C Executive</field>
+	    </record>
+	    <record model="hr.job" id="de14">
+	        <field name="name">Non-Lawyer-Application Manager</field>
+	    </record>
+	    <record model="hr.job" id="de15">
+	        <field name="name">Non-Lawyer-Assistant Manager</field>
+	    </record>
+	    <record model="hr.job" id="de16">
+	        <field name="name">Non-Lawyer-Analyst</field>
+	    </record>
+	    <record model="hr.job" id="de17">
+	        <field name="name">Non-Lawyer-Auditor</field>
+	    </record>
+	    <record model="hr.job" id="de18">
+	        <field name="name">Non-Lawyer-Billing Executive</field>
+	    </record>
+	    <record model="hr.job" id="de19">
+	        <field name="name">Non-Lawyer-CFO</field>
+	    </record>
+	    <record model="hr.job" id="de20">
+	        <field name="name">Non-Lawyer-Court Clerk</field>
+	    </record>
+	    <record model="hr.job" id="de21">
+	        <field name="name">Nom-Lawyer-Data Entry Operator</field>
+	    </record>
+	    <record model="hr.job" id="de22">
+	        <field name="name">Non-Lawyer-Driver</field>
+	    </record>
+	    <record model="hr.job" id="de23">
+	        <field name="name">Non-Lawyer-Executive</field>
+	    </record>
+	    <record model="hr.job" id="de24">
+	        <field name="name">Non-Lawyer-Executive Assistant</field>
+	    </record>
+	    <record model="hr.job" id="de25">
+	        <field name="name">Non-Lawyer-Facility Manager</field>
+	    </record>
+	    <record model="hr.job" id="de26">
+	        <field name="name">Non-Lawyer-Fiiling Clerk</field>
+	    </record>
+	    <record model="hr.job" id="de27">
+	        <field name="name">Non-Lawyer-Front Office Executive</field>
+	    </record>
+	    <record model="hr.job" id="de28">
+	        <field name="name">Non-Lawyer-Head</field>
+	    </record>
+	    <record model="hr.job" id="de29">
+	        <field name="name">Non-Lawyer-Manager</field>
+	    </record>
+	    <record model="hr.job" id="de30">
+	        <field name="name">Non-Lawyer-Office Boy</field>
+	    </record>
+	    <record model="hr.job" id="de31">
+	        <field name="name">Non-Lawyer-Secretary</field>
+	    </record>
+	    <record model="hr.job" id="de32">
+	        <field name="name">Non-Lawyer-Sr. Executive</field>
+	    </record>
+	    <record model="hr.job" id="de33">
+	        <field name="name">Non-Lawyer-Sr. Software Executive</field>
+	    </record>
+   	</data>
+</odoo>

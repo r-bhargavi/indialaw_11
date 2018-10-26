@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <data>
+
+ 	<record id='wizard_confirm_done_id' model="ir.ui.view">
+            <field name="name">Mark as Done Wizard</field>
+            <field name="model">confirm.done</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Success Information">
+                        <group col="4">
+                            <!--separator colspan="4"/-->
+			    <h2><label colspan="4" string="Do you wan to Make selected Tasks as Done?"></label></h2>
+                        </group>
+			<group col="2">
+			</group>
+                        <group col="2">
+                            <button special="cancel" icon="gtk-cancel" string="Cancel" colspan="1"/>
+                            <button name="button_confirm" string="OK" type="object" colspan="1"/>
+                        </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_success_msg" model="ir.actions.act_window">
+             <field name="name">Mark as Done</field>
+             <field name="res_model">confirm.done</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="target">new</field>
+        </record>
+  </data>
+  
+  <data noupdate="1">
+       <record forcecreate="True" id="ir_cron_due_days_update" model="ir.cron">
+        <field name="name">Update Project Tasks Due Days</field>
+        <field eval="False" name="active" />
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field eval="True" name="doall" />
+        <field ref="model_project_task" name="model_id" />
+        <field eval="'run_scheduler'" name="function" />
+        <field eval="'()'" name="args" />
+      </record>
+        
+       <record forcecreate="True" id="ir_cron_task_message_update" model="ir.cron">
+        <field name="name">Update Project Tasks Message Details</field>
+        <field eval="False" name="active" />
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field eval="False" name="doall" />
+        <field ref="model_project_task" name="model_id" />
+        <field eval="'run_scheduler_for_task_message'" name="function" />
+        <field eval="'()'" name="args" />
+      </record>
+        
+       <record forcecreate="True" id="ir_cron_remaind_nextproceed_update" model="ir.cron">
+        <field name="name">Update Next Proceed Date Remainder</field>
+        <field eval="False" name="active" />
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field eval="True" name="doall" />
+        <field ref="model_court_proceedings" name="model_id" />
+        <field eval="'missing_date_scheduler'" name="function" />
+        <field eval="'()'" name="args" />
+      </record>
+      
+      
+      <record forcecreate="True" id="ir_cron_remaind_not_billed_update" model="ir.cron">
+        <field name="name">Update Check Fully Billed</field>
+        <field eval="False" name="active" />
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field eval="True" name="doall" />
+        <field ref="model_court_proceedings" name="model_id" />
+        <field eval="'check_fully_billed'" name="function" />
+        <field eval="'()'" name="args" />
+      </record> 
+   </data>
+        <!--menuitem parent="account.menu_finance_reporting" id="success_msg_menu" icon="STOCK_PRINT" name="Success Msg" action="action_success_msg" sequence="9998"/-->
+
+    
+</odoo>

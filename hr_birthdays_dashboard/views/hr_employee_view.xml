@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+        <record id="view_employee_birthday_filter" model="ir.ui.view">
+            <field name="name">Employees Birthdays</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <field name="category_ids" position="after">
+                  <filter name="birthday_today" string="Today's Birthdays" domain="[('birthday_day','=',(context_today()).strftime('%%d')),('birthday_month','=',(context_today()).strftime('%%m'))]" help="Today's Employee Birthdays" icon="terp-check"/>
+                  <!--<filter name="birthday_week" string="This Week Birthdays" domain="[('birthday_select','=','2')]" help="This Week  Employees Birthdays" icon="terp-check"/>-->
+                  <filter name="birthday_monthly" string="This Month Birthdays" domain="[('birthday_month','=',(context_today()).strftime('%%m'))]" help="This Month  Employees Birthdays" icon="terp-check"/>
+                </field>
+             </field>
+         </record>
+         
+    <!-- HR Kanban View  -->
+
+   <!--<record model="ir.ui.view" id="hr_kanban_view_employees_birthdays">-->
+        <!--<field name="name">HR - Employees Kanban</field>-->
+        <!--<field name="model">hr.employee</field>-->
+        <!--<field name="priority">10</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<kanban>-->
+                <!--<field name="login_date"/>-->
+                <!--<templates>-->
+                    <!--<t t-name="kanban-box">-->
+                        <!--<div class="oe_employee_vignette">-->
+                            <!--<div class="oe_employee_image">-->
+                                <!--<a type="open"><img t-att-src="kanban_image('hr.employee', 'image_medium', record.id.value)" class="oe_employee_picture"/></a>-->
+                            <!--</div>-->
+                            <!--<div class="oe_employee_details">-->
+                                <!--<h4>-->
+                                    <!--<a type="open"><field name="name"/></a>-->
+                                <!--</h4>-->
+                                <!--<ul>-->
+                                    <!--<li id="login_date">-->
+                                        <!--<span t-if="record.login_date.raw_value &amp;&amp; record.login_date.raw_value.is().today()" class="oe_kanban_button" style="font-size: 100%%">-->
+                                              <!--<t t-esc="record.login_date.raw_value.toString('HH:mm')"/>-->
+                                        <!--</span>-->
+                                    <!--</li>-->
+                                    <!--<li t-if="record.job_id.raw_value"><field name="job_id"/></li>-->
+                                    <!--<li t-if="record.mobile_phone.raw_value">Mobile: <field name="mobile_phone"/></li>-->
+                                    <!--<li t-if="record.work_email.raw_value"><a t-attf-href="mailto:#{record.work_email.value}"><field name="work_email"/></a></li>-->
+                                    <!--<li t-if="record.birthday_string.raw_value">Birthday : <field name="birthday_string"/></li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<script>-->
+                            <!--$('.oe_employee_picture').load(function() { if($(this).width() > $(this).height()) { $(this).addClass('oe_employee_picture_wide') } });-->
+                        <!--</script>-->
+                    <!--</t>-->
+                <!--</templates>-->
+            <!--</kanban>-->
+
+        <!--</field>-->
+    <!--</record>-->
+    <!---->
+    <record id="view_employee_form_inherit_birthday" model="ir.ui.view">
+            <field name="name">view.employee.form.inherit_birthday</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='birthday']" position="replace">
+                  <field name="birthday"/>
+                </xpath>
+                <xpath expr="//field[@name='birthday']" position="after">
+                  <field name="birthday_string" invisible="1"/>
+                  <field name="birthday_select" invisible="1"/>
+                  <field name="birthday_day" invisible="1"/>
+                  <field name="birthday_month" invisible="1"/>
+                </xpath>
+            </field>
+    </record>
+    </data>
+</openerp>

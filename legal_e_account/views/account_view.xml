@@ -1,0 +1,1099 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_account_invoice_filter_inhs" model="ir.ui.view">
+        <field name="name">account.invoice.inhs.search</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+                <field name="number" position="replace">
+                    <field name="number" string="Invoice" filter_domain="['|','|','|', ('legale_number','ilike',self), ('origin','ilike',self), ('supplier_invoice_number', 'ilike', self), ('partner_id', 'child_of', self)]"/>
+                    <!--<field name="branch_id" string="Office"/>-->
+                    <filter name="sent" string="Not Sent" domain="[('sent','=',False), ('state', '=', 'open')]" help="Un-Printed Invoices"/>
+                </field>
+                <xpath expr="//filter[@name='unpaid']" position="after">
+                    <filter string="Number" name="legale_number" context="{'group_by': 'legale_number'}" icon="terp-stock_effects-object-colorize"/>
+                    <!--<filter string="Office" name="branch_id" context="{'group_by': 'branch_id'}" icon="terp-stock_effects-object-colorize"/>-->
+                    <filter string="Client Relationship Manager" name="client_service_manager_id" context="{'group_by': 'client_service_manager_id'}" icon="terp-stock_effects-object-colorize"/>
+                    <filter name="not_cancelled_invoices" string="Not Cancelled" domain="[('state','not in',['cancel'])]" help="Not Cancelled Invoices"/>
+                    <filter name="due_date_over" string="Due Date Over" domain="[('due_date_over','=',True)]" help="Due Date Over"/>
+                    <filter string="Partially Paid" domain="[('partially_paid','=',True),('state', '=', 'open')]" icon="terp-camera_test"/>
+                </xpath> 
+        </field> 
+     </record>
+     
+<!--     <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+        <field name="domain">[('type','=','out_invoice'),('consolidated_id', '=', False)]</field>
+        <field name="context">{'order_by_inv_date': True, 'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+    </record>-->
+    <record id="account_invoice_inhs_form" model="ir.ui.view">
+            <field name="name">account.invoice.inhs.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+            
+            <xpath expr="//button[@name='action_invoice_open']" position="attributes">
+                <attribute name="groups">account.group_account_manager</attribute>
+            </xpath>
+<!--            <xpath expr="//button[@name='invoice_open'][2]" position="attributes">
+                <attribute name="groups">account.group_account_manager</attribute>
+            </xpath>-->
+            
+            <field name="number" position="replace">
+              <field name="legale_number" readonly="1" class="oe_inline"/>
+            </field>
+            <field name="comment" position="after">            
+              <div class="oe_clear">
+                <label for="subject_line"/>
+              </div>
+              <field name="subject_line" class="oe_inline"/>
+            </field>
+<!--        <button string="Print Invoice" position="replace">
+                <button name="invoice_print" string="Print Invoice" type="object" attrs="{'invisible':['|',('sent','=',False), ('state', 'not in', ('open', 'paid'))]}" groups="base.group_user"/>
+            </button>
+        <button string="Print" position="replace">
+        <button name="invoice_print" string="Print" type="object" attrs="{'invisible':['|',('sent','=',True), ('state', 'not in', ('open', 'paid'))]}" class="oe_highlight" groups="base.group_user"/>
+        </button>-->
+<!--            <field name="account_id" position="attributes">
+            <attribute name="required">True</attribute>
+            </field>-->
+<!--            <xpath expr="/form/sheet/notebook/page[1]/field[@name='invoice_line_ids']/tree/field[@name='account_id']" position="attributes">
+                <attribute name="required">False</attribute>
+                <attribute name="context">{'ledger_account_ids': True}</attribute>
+            </xpath>-->
+            <field name="fiscal_position_id" position="after">
+                <field name="invoice_template" required="1"/>
+                <field name="consolidated_id" readonly="1" attrs="{'invisible':[('consolidated_id','=',False)]}"/>
+            </field>
+<!--            <button string="Reset to Draft" position="replace">
+            <button name="action_cancel_draft" string="Reset to Draft" type="object" groups="base.group_user" attrs="{'invisible':['|',('consolidated_id','!=',False), ('state', '!=', 'cancel')]}"/>
+            </button>-->
+            <field name="payment_term_id" position="after">
+              <field name="flg_tds_note" colspan="2"/>
+              <field name="flg_pan_no" colspan="2" attrs="{'invisible':[('invoice_template','!=','general')]}"/>
+            </field>
+            
+            <field name="move_id" position="after">            
+              <field name="assignee_id"/>
+              <field name="division_id"/>
+              <field name="client_service_manager_id"/>
+              <field name="due_date_over" readonly="1"/>
+	              
+            </field>
+            <field name="date_due" position="attributes">
+              <attribute name="invisible">1</attribute>
+            
+            </field>
+            
+            <field name="partner_id" position="attributes">
+              <attribute name="string">Client</attribute>
+            </field>
+            <field name="residual" position="after">
+                <field name="bad_debts" widget="monetary" options="{'currency_field': 'currency_id'}"/>           
+            </field>
+            
+             <xpath expr="//notebook/page[2]" position="after">
+                
+                    <page string="Invoice Follow-up">
+                                <group>
+                                    <field name="next_followup_date"/>
+                                </group>
+                                <newline/>
+		                        <field name="invoice_followup_ids">
+		                            <form string="Invoice Follow-up" version="7.0">
+		                                <group>
+		                                    <group>
+		                                        <field name="date" required="1"/>
+		                                        <field name="invoice_id" invisible="1"/>
+		                                        <field name="state" required="1" string="Status"/>
+		                                    </group>
+		                                    <group>
+		                                        <field name="next_date" required="1"/>
+		                                        <field name="communicate_via"/>
+		                                        <field name="remark_id"/>
+		                                    </group>
+		                                </group>
+		                                <div>
+				                            <label for="name"/>
+				                            <field name="name"  required="1" />
+				                        </div>
+		                            </form>
+		                            <tree string="Invoice Follow-up">
+		                                <field name="create_date"/>
+		                                <field name="date"/>
+		                                <field name="client_service_manager_id"/>
+		                                <field name="name"/>
+		                                <field name="remark_id"/>
+		                                <field name="next_date"/>
+		                                <field name="state" required="1" string="Status"/>
+		                                <field name="communicate_via"/>
+		                                <field name="invoice_id" invisible="1"/>
+		                            </tree>
+		                        </field>
+                    </page>
+                    
+                </xpath>
+            <xpath expr="//button[@name='action_invoice_cancel']" position="replace">
+                    <!--<button name="action_invoice_cancel" string="Cancel Invoice" groups="legal_e_account.group_cancel_invoices" attrs="{'invisible':['|',('consolidated_id','!=',False), ('state', 'in', ['paid','cancel'])]}"/>-->
+                    <button name="action_invoice_cancel" string="Cancel Invoice" groups="legal_e_account.group_cancel_invoices" attrs="{'invisible':[('state', 'in', ['paid','cancel'])]}"/>
+                </xpath>
+                <xpath expr="//button[@name='action_invoice_open']" position="after">
+                    <button name="invoice_pay_customer" type="object" string="Register Payment"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',True)]}" context="{'customer_pay': True}" groups="base.group_user"/>
+                    <button name="invoice_pay_customer" type="object" string="Register Payment"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',False)]}"  class="oe_highlight" groups="base.group_user" invisible="0"/>
+                </xpath>
+           </field> 
+        </record>
+        
+
+        <record id="account_invoice_inhs_tree" model="ir.ui.view">
+            <field name="name">account.invoice.inhs.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+            <field name="number" position="replace">
+              <field name="legale_number"/>
+            </field>
+            <field name="user_id" position="after">
+              <field name="case_id" invisible="1"/>
+              <field name="branch_id"/>
+              <field name="division_id"/>
+              <field name="assignee_id"/>
+              <field name="client_service_manager_id"/>
+              <field name="client_service_executive_id"/>
+              <!--<field name="next_followup_date"/>-->
+            </field>
+             <field name="origin" position="attributes"> 
+                <attribute name="invisible">1</attribute>
+             </field>
+            <field name="user_id" position="attributes">
+              <attribute name="invisible">1</attribute>
+            
+            </field>
+            
+            <field name="date_due" position="attributes">
+              <attribute name="invisible">1</attribute>
+            
+            </field>
+            
+            <field name="amount_total_signed" position="attributes">
+              <attribute name="string">Amount</attribute>
+            
+            </field>
+            
+            <field name="partner_id" position="attributes">
+              <attribute name="string">Client</attribute>
+            </field>
+            
+            <field name="amount_total_signed" position="after">
+                <field name="bad_debts" sum="Bad Debts"/>
+                <field name="due_date_over" invisible="1"/> 
+                <field name="due_date_red" invisible="1"/> 
+            </field>
+            <field name="state" position="after">
+                <field name="partially_paid"/>
+                <field name="due_days_string"/>
+            </field>
+            <xpath expr="//tree" position="attributes">
+                <attribute name="colors">blue:state == 'draft';gray:state == 'cancel';red:due_date_red == True;green:due_date_over == True</attribute>
+            </xpath>
+           </field> 
+        </record>
+        
+        
+        
+         <record id="account.action_invoice_tree1_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="account.invoice_tree"/>
+            <field name="act_window_id" ref="account.action_invoice_tree1"/>
+        </record>
+        
+        
+         <record id="action_csm_invoice_tree2" model="ir.actions.act_window">
+            <field name="name">Overdue Invoice Analysis</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice'),('state', '=', 'open'),('client_service_manager_id.user_id', '=', uid),('due_date_over','=', True),('consolidated_id', '=', False)]</field>  
+            <field name="context">{'order_by_inv_date': True, 'search_default_due_date_over':1, 'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="legal_e_account.view_account_invoice_filter_inhs"/>
+        </record>
+        
+        
+        <record id="action_csm_invoice_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="legal_e_account.account_invoice_inhs_tree"/>
+            <field name="act_window_id" ref="action_csm_invoice_tree2"/>
+        </record>
+        
+        <record id="action_csm_invoice_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="legal_e_account.account_invoice_inhs_form"/>
+            <field name="act_window_id" ref="action_csm_invoice_tree2"/>
+        </record>
+        
+        
+        
+        <record id="csm_action_consolidated_bill" model="ir.actions.act_window">
+            <field name="name">Consolidated Bill</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">consolidated.bill</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('client_service_manager_id.user_id', '=', uid),('due_date_over','=', True)]</field>  
+            <field name="view_id" ref="legal_e.view_consolidated_bill_tree"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new Consolidated Bill.
+              </p><p>
+                You can create and update Consolidated Bills.
+              </p>
+            </field>
+        </record>
+        
+         <record id="csm_bill_dashboard_form" model="ir.ui.view">
+            <field name="name">bills.form.dashboard</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="My Board" version="7.0">
+                    <board style="1">
+                        <column>
+                            <action name="%(action_csm_invoice_tree2)d" string="Customer Invoices"/>
+                            <action name="%(csm_action_consolidated_bill)d" string="Consolidated Bills"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="csm_open_board_invoice_analysis" model="ir.actions.act_window">
+            <field name="name">Overdue Invoice Analysis</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="csm_bill_dashboard_form"/>
+        </record>
+        
+        
+        
+        
+        
+        
+        
+        
+        <menuitem action="csm_open_board_invoice_analysis" id="menu_action_csm_invoice_tree2" parent="base.menu_reporting_dashboard" sequence="4" groups="legal_e.group_legal_e_client_service_manager"/>
+        
+        
+        
+        
+        
+        
+        <!-- See All-->
+        
+        <record id="action_see_all_invoice_tree2" model="ir.actions.act_window">
+            <field name="name">Overdue Invoice Analysis(All)</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice'),('state', '=', 'open'),('due_date_over','=', True),('consolidated_id', '=', False)]</field>  
+            <field name="context">{'order_by_inv_date': True, 'search_default_due_date_over':1, 'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="legal_e_account.view_account_invoice_filter_inhs"/>
+        </record>
+        
+        
+        <record id="action_see_all_invoice_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="legal_e_account.account_invoice_inhs_tree"/>
+            <field name="act_window_id" ref="action_see_all_invoice_tree2"/>
+        </record>
+        
+        <record id="action_see_all_invoice_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="legal_e_account.account_invoice_inhs_form"/>
+            <field name="act_window_id" ref="action_see_all_invoice_tree2"/>
+        </record>
+        
+        <record id="all_action_consolidated_bill" model="ir.actions.act_window">
+            <field name="name">Consolidated Bill</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">consolidated.bill</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('due_date_over','=', True)]</field>  
+            <field name="view_id" ref="legal_e.view_consolidated_bill_tree"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new Consolidated Bill.
+              </p><p>
+                You can create and update Consolidated Bills.
+              </p>
+            </field>
+        </record>
+        
+        
+        
+        
+        
+        
+        
+        <record id="bill_dashboard_form" model="ir.ui.view">
+            <field name="name">bills.form.dashboard</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="My Board" version="7.0">
+                    <board style="1">
+                        <column>
+                            <action name="%(action_see_all_invoice_tree2)d" string="Customer Invoices"/>
+                            <action name="%(all_action_consolidated_bill)d" string="Consolidated Bills"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_board_invoice_analysis" model="ir.actions.act_window">
+            <field name="name">Overdue Invoice Analysis(All)</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="bill_dashboard_form"/>
+        </record>
+        
+        
+        
+         <menuitem action="open_board_invoice_analysis" id="menu_action_see_all_invoice_tree2" parent="base.menu_reporting_dashboard" sequence="4" groups="legal_e.group_legal_e_main_menus"/>
+        
+        
+        
+        
+        
+        
+        
+         <record id="legale_account_invoice_followup_tree" model="ir.ui.view">
+            <field name="name">account.invoice.followup.tree</field>
+            <field name="model">account.invoice.followup</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Follow-up" create="false" colors="red:due_next_date_over == True" >
+                    <field name="client_service_manager_id"/>
+                    <field name="date_invoice"/>
+                    <field name="invoice_id"/>
+                    <field name="branch_id"/>
+                    <field name="division_id"/>
+                    <field name="partner_id"/>
+                    <!--<field name="contact_partner1_id"/>-->
+                    <field name="due_days_string"/>
+                    <!--<field name="amount"/>-->
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="remark_id"/>
+                    <field name="next_date"/>
+                    <field name="state"/>
+                    <field name="communicate_via"/>
+                    <field name="due_next_date_over" invisible="1"/>
+                    
+                    
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record id="legale_account_invoice_followup_form" model="ir.ui.view">
+            <field name="name">account.invoice.followup.form</field>
+            <field name="model">account.invoice.followup</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Follow-up" version="7.0" create="false" edit="false">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+	                    <group>
+	                        <group>
+	                            <field name="date" required="1" readonly="1"/>
+	                            <field name="partner_id" readonly="1"/>
+	                            <field name="invoice_id" invisible="0" />
+	                        </group>
+	                        <group>
+	                            <field name="next_date" required="1" readonly="1"/>
+	                            <field name="communicate_via"/>
+	                            <field name="due_next_date_over" invisible="1"/>
+	                            <field name="remark_id"/>
+	                        </group>
+	                    </group>
+	                    <div>
+	                        <label for="name"/>
+	                        <field name="name"  required="1"  readonly="1"/>
+	                    </div>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="legale_account_invoice_followup_filter" model="ir.ui.view">
+            <field name="name">account.invoice.followup.list.select</field>
+            <field name="model">account.invoice.followup</field>
+            <field name="arch" type="xml">
+                <search string="Search Invoice Follow-up">
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="client_service_manager_id"/>
+                    <field name="name"/>
+                    <field name="next_date"/>
+                    <field name="invoice_id"/>
+                    <field name="state"/>
+                    <field name="remark_id"/>
+                    <separator/>
+                    <filter icon="terp-document-new" string="Missing Followup" name="missing_followup" domain="[('name','ilike', 'Missing Followup')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Client" icon="terp-personal" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Followup Remarks" icon="terp-personal" domain="[]" context="{'group_by':'remark_id'}"/>
+                        <filter string="Status" icon="terp-personal" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Invoice" icon="terp-personal" domain="[]" context="{'group_by':'invoice_id'}"/>
+                        <filter string="Next Follow-up Date" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'next_date'}"/>
+                    </group>
+                    
+                </search>
+            </field>
+        </record>
+        
+        
+        <record id="action_legale_account_invoice_followup" model="ir.actions.act_window">
+            <field name="name">Account Follow-up History</field>
+            <field name="res_model">account.invoice.followup</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('client_service_manager_id.user_id', '=', uid),('invoice_id.state', '=', 'open')]</field>
+            <field name="search_view_id" ref="legale_account_invoice_followup_filter"/>
+        </record>
+        
+         <record id="legale_account_invoice_followup_dashboard_form" model="ir.ui.view">
+            <field name="name">invoice_followup.form.dashboard</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="My Board" version="7.0">
+                    <board style="1">
+                        <column>
+                            <action name="%(action_legale_account_invoice_followup)d" string="Customer Invoices"/>
+                            <action name="%(legal_e.action_legale_bill_followup)d" string="Consolidated Invoices"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_board_legale_account_invoice_followup_analysis" model="ir.actions.act_window">
+            <field name="name">Account Follow-up History</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="legale_account_invoice_followup_dashboard_form"/>
+        </record>
+        
+        
+        
+        <menuitem action="open_board_legale_account_invoice_followup_analysis" id="menu_action_legale_account_invoice_followup" parent="base.menu_reporting_dashboard" sequence="4" groups="legal_e.group_legal_e_client_service_manager"/>
+        
+        
+        <!-- See All-->
+        
+        <record id="action_legale_account_invoice_followup_see_all" model="ir.actions.act_window">
+            <field name="name">Account Follow-up History(All)</field>
+            <field name="res_model">account.invoice.followup</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('invoice_id.state', '=', 'open')]</field>
+            <field name="search_view_id" ref="legale_account_invoice_followup_filter"/>
+        </record>
+        
+        
+        
+        <record id="legale_account_invoice_followup_all_dashboard_form" model="ir.ui.view">
+            <field name="name">invoice_followup_all.form.dashboard</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="My Board" version="7.0">
+                    <board style="1">
+                        <column>
+                            <action name="%(action_legale_account_invoice_followup_see_all)d" string="Customer Invoices"/>
+                            <action name="%(legal_e.action_legale_bill_followup_see_all)d" string="Consolidated Invoices"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_board_legale_account_invoice_followup_all_analysis" model="ir.actions.act_window">
+            <field name="name">Account Follow-up History(All)</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="legale_account_invoice_followup_all_dashboard_form"/>
+        </record>
+        
+        
+        
+        <menuitem action="open_board_legale_account_invoice_followup_all_analysis" id="menu_action_legale_account_invoice_followup_see_all" parent="base.menu_reporting_dashboard" sequence="4" groups="legal_e.group_legal_e_main_menus"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <record id="supplier_invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel'" string="Invoice">
+                    <field name="partner_id" groups="base.group_user"/>
+                    <field name="date_invoice"/>
+                    <field name="number"/>
+                    <field name="reference" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <!--<field name="period_id" invisible="1" groups="account.group_account_user"/>-->
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="user_id"/>
+                    <field name="date_due"/>
+                    <field name="origin"/>
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="residual" sum="Residual Amount"/>
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+<!--         <record id="action_supplier_invoice_tree1_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="supplier_invoice_tree"/>
+            <field name="act_window_id" ref="account.action_invoice_tree2"/>
+        </record>-->
+        
+        
+        <record id="account_voucher_inhs_form" model="ir.ui.view">
+            <field name="name">account.voucher.inhs.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_purchase_receipt_form"/>
+            <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+              <field name="tds_amount" attrs="{'readonly':[('state','not in','draft')]}" class="oe_inline" widget="monetary" context="{'amount_change': True}" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id,tds_amount,consolidated_id,invoice_ids, context)"/>
+              <field name="tds_account_id" domain="[('type','!=','view')]" attrs="{'required':[('tds_amount','>',0)],'readonly':[('state','not in','draft')]}"/>
+              
+              <field name="consolidated_id" 
+                     widget="many2many_tags" 
+                     domain="[('client_id','=',partner_id),('state','=', 'invoice')]"  
+                     options="{'create_edit': false,'create': false}"  
+                     on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, tds_amount, consolidated_id, invoice_ids, context)"
+                     context="{'consolidated_id': True}" 
+                     attrs="{'readonly':[('state','not in','draft')]}"/>
+                     
+                     
+            </field>
+            <field name="amount" position="replace">
+            <field name="amount" class="oe_inline" string="Paid Amount" widget="monetary" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, tds_amount, consolidated_id, invoice_ids, context)"
+                                 context="{'amount_change': True}"/>
+            <field name="flg_associate_payment" invisible="1"/>
+            </field>
+            <field name="partner_id" position="replace">
+            <field name="partner_id" domain="[('customer','=',True)]" on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, tds_amount, consolidated_id, invoice_ids, context)" string="Customer" context="{'search_default_customer':1, 'show_address': 1, 'return_null': True}" options='{"always_reload": True}'/>
+            </field>
+<!--            <field name="line_cr_ids" position="attributes">
+                    <attribute name="on_change">onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, tds_amount, context)</attribute>
+            </field> -->
+<!--            <field name="line_dr_ids" position="attributes">
+                    <attribute name="on_change">onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, tds_amount, context)</attribute>
+            </field>-->
+            <notebook position="before">
+                <group col="4" colspan="4">
+                <h3><i>
+                <label string="Note : Associate Payment is present for this Case sheet" class="red_asso_pay_remind" attrs="{'invisible':[('flg_associate_payment','=',False)]}" colspan="4"/></i></h3>
+                <field name="flg_associate_payment" invisible="1"/>
+                </group>
+            </notebook>
+            
+            <field name="name" position="after">
+                    <field name="invoice_ids"  
+                           domain="[('partner_id','=', partner_id),('state','=', 'open'),('type','=','out_invoice'),('consolidated_id', '=', False)]" 
+                           widget="many2many_tags" 
+                           on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, tds_amount, consolidated_id, invoice_ids, context)"
+                           context="{'form_view_ref': 'account.invoice_form', 'tree_view_ref': 'account.invoice_tree', 'invoice_ids': True}"
+                           attrs="{'readonly':[('state','not in','draft')]}"
+                           />
+             </field>
+             
+              <field name="journal_id" position="attributes">
+                    <attribute name="context">{'journal_id_change': True}</attribute>
+                    <attribute name="on_change">onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, tds_amount, consolidated_id, invoice_ids, context)</attribute>
+            </field>
+            
+            <xpath expr="//field[@name='account_id']" position="replace">
+                  <field name="account_id" required="1" context="{'bank_account_ids': True}"/>
+            </xpath>    
+           </field> 
+        </record>
+        
+        <record id="account_voucher_inhs_form2" model="ir.ui.view">
+            <field name="name">account.voucher.inhs.form2</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_purchase_receipt_form"/>
+            <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+              <field name="tds_amount" attrs="{'readonly':[('state','not in','draft')]}" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id,tds_amount,context)"/>
+              <field name="tds_account_id" domain="[('type','!=','view')]" attrs="{'required':[('tds_amount','>',0)],'readonly':[('state','not in','draft')]}"/>
+            </field>
+            <field name="amount" position="replace">
+            <field name="amount" class="oe_inline" string="Paid Amount" widget="monetary" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, tds_amount, context)"/>
+            </field>
+<!--            <field name="line_cr_ids" position="attributes">
+                    <attribute name="on_change">onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, tds_amount, context)</attribute>
+            </field> -->
+<!--            <field name="line_dr_ids" position="attributes">
+                    <attribute name="on_change">onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, tds_amount, context)</attribute>
+            </field>    -->
+               
+            <field name="partner_id" position="attributes">
+                    <attribute name="domain">[('supplier', '=',True )]</attribute>
+            </field>    
+               
+           </field> 
+        </record>
+        
+        <record id="account_invoice_supplier_form_inhs" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.inhs</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='account_id']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page[1]/field[@name='invoice_line_ids']/tree/field[@name='account_id']" position="after">
+                <field name="office_id"/>
+                <field name="division_id" domain="[('office_id', '=', office_id)]"/>
+            </xpath>  
+            
+           </field> 
+        </record>
+        
+<!--        <record id="account_account_inhs_form" model="ir.ui.view">
+            <field name="name">account.account.inhs.form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+            <field name="parent_id" position="attributes">
+                <attribute name="on_change">onchange_parent(parent_id)</attribute>
+                <attribute name="attrs">{'required':[('type', '!=', 'view')]}</attribute>
+            </field>  
+           </field> 
+        </record>-->
+        
+        <record id="action_associates_invoice_tree2" model="ir.actions.act_window">
+            <field name="name">Associates Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+<!--            <field name="domain">[('type','=','in_invoice'),('partner_id.associate', '=', True)]</field>
+            <field name="context">{'order_by_inv_date': True, 'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>-->
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        </record>
+        
+        <menuitem  sequence="20" action="action_associates_invoice_tree2" id="menu_action_associates_invoice_tree2" parent="account.menu_finance_payables_documents"/>
+
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="domain">[('type','=','in_invoice'), ('partner_id.associate', '=', False)]</field>
+            <field name="context">{'order_by_inv_date': True, 'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
+         </record>
+         
+        <record id="action_associates_vendor_payment" model="ir.actions.act_window">
+            <field name="name">Associates Payments</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <!--<field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','payment'), ('partner_id.associate', '=', True)]</field>-->
+            <!--<field name="context">{'type':'payment'}</field>-->
+            <field name="view_id" eval="False"/>
+            <!--<field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor"/>-->
+            <field name="target">current</field>
+        </record>
+        
+        <record id="action_associates_vendor_payment_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_associates_vendor_payment"/>
+        </record>
+        
+        <record id="action_associates_vendor_payment_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_voucher.view_purchase_receipt_form"/>
+            <field name="act_window_id" ref="action_associates_vendor_payment"/>
+        </record>
+        
+        <menuitem action="action_associates_vendor_payment" icon="STOCK_JUSTIFY_FILL" sequence="20"
+            id="menu_action_associates_vendor_payment"  parent="account.menu_finance_payables_documents"/>
+
+<!--        <record id="account_voucher.action_vendor_payment" model="ir.actions.act_window">
+            <field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','payment'), ('partner_id.associate', '=', False)]</field>
+        </record>-->
+        
+<!--        <record model="ir.ui.view" id="legal_e_view_vendor_receipt_dialog_form">
+            <field name="name">legal_e.account.voucher.receipt.dialog.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form"/>
+            <field name="arch" type="xml">
+            	<field name="journal_id" position="after">
+                    <field name="tds_amount"  invisible="context.get('line_type', False)" class="oe_inline" widget="monetary" context="{'amount_change': True}" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id,tds_amount,consolidated_id,invoice_ids, context)"/>
+                    <field name="tds_account_id" invisible="context.get('line_type', False)" domain="[('type','!=','view')]" attrs="{'required':[('tds_amount','>',0)]}"/>
+                    <field name="consolidated_id" invisible="1"/>
+                    <field name="invoice_ids" invisible="1"/>
+            	</field>
+            	
+            	<field name="journal_id" position="replace">
+                    <field name="journal_id"
+                                domain="[('type','in',['bank', 'cash'])]"
+                                invisible="context.get('line_type', False)"
+                                widget="selection"
+                                on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, tds_amount, consolidated_id, invoice_ids, context)"
+                                string="Payment Method"/>
+            	</field>
+            	
+            	<field name="amount" position="replace">
+                    <field name="amount" class="oe_inline"
+                                string="Paid Amount"
+                                widget='monetary' options='{"currency_field": "currency_id"}'
+                                invisible="context.get('line_type', False)"
+                                on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, tds_amount, consolidated_id, invoice_ids, context)"/>
+                            
+            	</field>
+            	
+            	 
+            </field> 
+        </record>-->
+        
+        <record model="ir.ui.view" id="legal_e_view_consolidated_bill_form">
+            <field name="name">legal_e.consolidated.bill.form</field>
+            <field name="model">consolidated.bill</field>
+            <field name="inherit_id" ref="legal_e.view_consolidated_bill_form"/>
+            <field name="arch" type="xml">
+            	<button name="cancel_bill" position="attributes">
+                  <attribute name="groups">legal_e_account.group_cancel_invoices</attribute>
+                </button>
+                <button name="cancel_bill_invoice" position="attributes">
+                  <attribute name="groups">legal_e_account.group_cancel_invoices</attribute>
+                </button>
+                
+                <button name="%(legal_e.action_view_bill_update_form)d" position="attributes">
+                  <attribute name="groups">legal_e_account.group_cancel_invoices</attribute>
+                </button>
+            
+        	</field> 
+        </record>
+        
+        <menuitem id="account_voucher.menu_action_sale_receipt" icon="STOCK_JUSTIFY_FILL"
+            action="account_voucher.action_sale_receipt"
+            parent="account.menu_finance_receivables_documents"
+            sequence="1"/>
+        
+        <menuitem id="account_voucher.menu_action_purchase_receipt" icon="STOCK_JUSTIFY_FILL"
+            action="account_voucher.action_purchase_receipt" parent="account.menu_finance_payables_documents" sequence="1"/>
+        
+        <record model="ir.ui.view" id="legal_e_view_employee_payment_form">
+            <field name="name">legal_e.employee.account.voucher.payment.form</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <form string="Voucher Payment" version="7.0">
+<!--                <header>
+                    <button name="proforma_voucher" string="Validate" states="draft" invisible="context.get('line_type', False)" class="oe_highlight"/>
+                    <button name="cancel_voucher" string="Cancel Voucher" states="draft,proforma"  invisible="context.get('line_type', False)"/>
+                    <button name="cancel_voucher" string="Unreconcile" type="object" states="posted" invisible="context.get('line_type', False)" confirm="Are you sure to unreconcile and cancel this record ?"/>
+                    <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft" invisible="context.get('line_type', False)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}'/>
+                </header>-->
+<!--                <sheet>
+                    <field name="account_id" />-->
+                    <!--<field name="account_id" invisible="True"/>-->
+                    <!--<field name="pre_line" invisible="1"/>-->
+                    <!--<field name="type" invisible="True"/>-->
+<!--                    <group>
+                        <group>
+                            <field name="partner_id"  string="Employee" required="1" invisible="context.get('line_type', False)" on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)" context="{'employee_pay': True, 'invoice_currency':currency_id }"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount" class="oe_inline" string="Paid Amount" widget="monetary" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, tds_amount, context)"/>
+            
+                            <field name="journal_id"
+                                domain="[('type','in',['bank', 'cash'])]"
+                                invisible="context.get('line_type', False)"
+                                widget="selection"
+                                on_change="onchange_journal(journal_id, line_dr_ids, False, partner_id, date, amount, type, company_id, context)"
+                                string="Payment Method"/>
+                             <field name="tds_amount" invisible="1" attrs="{'readonly':[('state','not in','draft')]}" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id,tds_amount,context)"/>
+                             <field name="tds_account_id" invisible="1" domain="[('type','!=','view')]" attrs="{'required':[('tds_amount','>',0)],'readonly':[('state','not in','draft')]}"/>
+            
+                        </group>
+                        <group>
+                            <field name="date" invisible="context.get('line_type', False)" on_change="onchange_date(date, currency_id, payment_rate_currency_id, amount, company_id, context)"/>
+                            <field name="reference" invisible="context.get('line_type', False)" string="Payment Ref" placeholder="e.g. 003/10"/>
+                            <field name="name" colspan="2" invisible="context.get('line_type', False)" placeholder="e.g. Invoice SAJ/0042"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                        </group>
+                    </group>-->
+<!--                    <notebook>
+                        <page string="Payment Information">
+                            <label for="line_dr_ids"/>
+                            <field name="line_dr_ids" context="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, tds_amount, context)">
+                                <tree string="Supplier Invoices and Outstanding transactions" editable="bottom" colors="gray:amount==0">
+                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}"
+                                        on_change="onchange_move_line_id(move_line_id)"
+                                        domain="[('account_id.type','=','payable'), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]"
+                                        required="1"/>
+                                    <field name="account_id" groups="base.group_no_one" domain="[('type','=','payable')]"/>
+                                    <field name="date_original" readonly="1"/>
+                                    <field name="date_due" readonly="1"/>
+                                    <field name="amount_original" readonly="1"/>
+                                    <field name="amount_unreconciled" readonly="1" groups="account.group_account_user"/>
+                                    <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)" groups="account.group_account_user"/>
+                                    <field name="amount" sum="Total Allocation" on_change="onchange_amount(amount, amount_unreconciled, context)"/>
+                                </tree>
+                            </field>
+                            <label for="line_cr_ids" attrs="{'invisible': [('pre_line','=',False)]}"/>
+                            <field name="line_cr_ids" attrs="{'invisible': [('pre_line','=',False)]}" context="{'journal_id':journal_id, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, tds_amount, context)">
+                                <tree string="Credits" editable="bottom" colors="gray:amount==0">
+                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}"
+                                        on_change="onchange_move_line_id(move_line_id)"
+                                        domain="[('account_id.type','=','payable'), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]"
+                                        required="1"/>
+                                    <field name="account_id" groups="base.group_no_one" domain="[('type','=','payable')]"/>
+                                    <field name="date_original" readonly="1"/>
+                                    <field name="date_due" readonly="1"/>
+                                    <field name="amount_original" readonly="1"/>
+                                    <field name="amount_unreconciled" readonly="1" groups="account.group_account_user"/>
+                                    <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)" groups="account.group_account_user"/>
+                                    <field name="amount" sum="Total Allocation" on_change="onchange_amount(amount, amount_unreconciled, context)"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group string="Internal Notes">
+                                    <field name="narration" colspan="2" nolabel="1"/>
+                                </group>
+                                <group>
+                                    <group col="2" attrs="{'invisible':[('is_multi_currency','=',False)]}">
+                                        <separator string="Currency Options" colspan="2"/>
+                                        <field name="is_multi_currency" invisible="1"/>
+					                    <label for="payment_rate" colspan="1"/>
+					                    <div>
+                                            <field name="payment_rate" required="1" class="oe_inline" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)"/>
+                                            <field name="payment_rate_currency_id" class="oe_inline" on_change="onchange_payment_rate_currency(currency_id, payment_rate, payment_rate_currency_id, date, amount, company_id, context)" groups="base.group_multi_currency"/>
+                                        </div>
+                                        <field name="currency_help_label" colspan="2" nolabel="1" class="oe_grey"/>
+                                        <field name="paid_amount_in_company_currency" colspan="2" invisible="1"/>
+                                    </group>
+                                    <group col="2">
+                                        <separator string="Payment Options" colspan="2"/>
+                                        <field name="writeoff_amount" widget='monetary' options='{"currency_field": "currency_id"}'/>
+                                        <field name="payment_option" required="1"/>
+                                        <field name="writeoff_acc_id"
+                                               attrs="{'invisible':[('payment_option','!=','with_writeoff')], 'required':[('payment_option','=','with_writeoff')]}"
+                                               domain="[('type','=','other')]"/>
+                                        <field name="comment"
+                                               attrs="{'invisible':[('payment_option','!=','with_writeoff')]}"/>
+                                        <field name="analytic_id"
+                                               groups="analytic.group_analytic_accounting"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Journal Items" attrs="{'invisible': [('state','!=','posted')]}">
+                            <group col="4">
+                                <field name="period_id"/>
+                                <field name="audit"/>
+                                <field name="number"/>
+                            </group>
+                            <field name="move_ids" readonly="1">
+                               <tree string="Journal Items">
+                                   <field name="move_id"/>
+                                   <field name="ref"/>
+                                   <field name="date"/>
+                                   <field name="statement_id"/>
+                                   <field name="partner_id"/>
+                                   <field name="account_id"/>
+                                   <field name="name"/>
+                                   <field name="debit"/>
+                                   <field name="credit"/>
+                                   <field name="state"/>
+                                   <field name="reconcile_id"/>
+                                   <field name="amount_currency" groups="base.group_multi_currency"/>
+                                   <field name="currency_id" groups="base.group_multi_currency"/>
+                               </tree>
+                            </field>
+                        </page>
+                    </notebook>-->
+<!--                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>-->
+                </form>
+            </field>
+        </record>
+       
+<!--       <record id="legal_e_view_voucher_filter_employee_pay" model="ir.ui.view">
+            <field name="name">legal_e.account.voucher.employee.pay.select</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <search string="Search Vouchers">
+                    <field name="number" string="Voucher"/>
+                    <field name="date"/>
+                    <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Draft Vouchers"/>
+                    <filter icon="terp-camera_test" string="Posted" domain="[('state','=','posted')]" help="Posted Vouchers"/>
+                    <field name="partner_id" string="Employee" filter_domain="[('partner_id','child_of',self)]"/>
+                    <field name="journal_id" widget="selection" context="{'journal_id': self, 'set_visible':False}" domain="[('type','in',('bank','cash'))]"/> 
+                    <field name="period_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Period" icon="terp-go-month" domain="[]" context="{'group_by':'period_id','visible':True}"/>
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>-->
+        
+        <record id="action_employee_payment" model="ir.actions.act_window">
+            <field name="name">Employee Payments</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <!--<field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','payment')]</field>-->
+            <!--<field name="context">{'employee_pay': True, 'type':'payment'}</field>-->
+            <field name="view_id" eval="False"/>
+            <!--<field name="search_view_id" ref="legal_e_view_voucher_filter_employee_pay"/>-->
+            <field name="target">current</field>
+           </record>
+        
+        <record id="action_employee_payment_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_employee_payment"/>
+        </record>
+        
+        <record id="action_employee_payment_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="legal_e_view_employee_payment_form"/>
+            <field name="act_window_id" ref="action_employee_payment"/>
+        </record>
+        
+        <menuitem id="menu_legale_employee_payment_main" name="Employees" groups="account.group_account_manager"  parent="account.menu_finance" sequence="3"/>
+
+        <record id="legal_e_expense_all" model="ir.actions.act_window">
+            <field name="name">Expenses</field>
+            <field name="res_model">hr.expense</field>
+            <field name="view_type">form</field>
+<!--            <field name="domain">[('state','=','accepted')]</field>
+            <field name="search_view_id" ref="hr_expense.view_hr_expense_filter"/>-->
+            <field name="view_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register new expenses. 
+              </p><p>
+                OpenERP will ensure the whole process is followed; the expense
+                sheet is validated by manager(s), the employee is reimbursed
+                from his expenses, some expenses must be re-invoiced to the
+                customers.
+              </p>
+            </field>
+        </record>
+       
+       <menuitem action="legal_e_expense_all" id="menu_legale_employee_expense_all" name="Employee Expenses" parent="menu_legale_employee_payment_main" sequence="9"/>
+       
+       <menuitem parent="menu_legale_employee_payment_main" id="action_employee_payment_menu" action="action_employee_payment" sequence="10"/>
+        
+<!--       <record id="account.action_analytic_open" model="ir.actions.act_window">
+            <field name="groups_id" eval="[(6,0,[ref('account.group_account_manager')])]"/>
+        </record>
+        
+        <record id="account.act_res_partner_2_account_invoice_opened" model="ir.actions.act_window">
+            <field name="groups_id" eval="[(6,0,[ref('account.group_account_manager')])]"/>
+        </record>
+        
+        <record id="account.act_account_partner_account_move" model="ir.actions.act_window">
+            <field name="groups_id" eval="[(6,0,[ref('account.group_account_manager')])]"/>
+        </record>
+        
+        <record id="account.act_account_invoice_partner_relation" model="ir.actions.act_window">
+            <field name="groups_id" eval="[(6,0,[ref('account.group_account_manager')])]"/>
+        </record>
+        <record id="account.act_account_partner_account_move_all" model="ir.actions.act_window">
+            <field name="groups_id" eval="[(6,0,[ref('account.group_account_manager')])]"/>
+        </record>-->
+<!--        <record id="legal_e_account_view_move_form_legal_e_inherit" model="ir.ui.view">
+            <field name="name">legal_e_account.account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_id']/tree[@string='Journal Items']/field[@name='analytic_account_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_id']/tree[@string='Journal Items']/field[@name='reconcile_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_id']/tree[@string='Journal Items']/field[@name='reconcile_partial_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_id']/tree[@string='Journal Items']/field[@name='date_maturity']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_id']/tree[@string='Journal Items']/field[@name='tax_code_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_id']/tree[@string='Journal Items']/field[@name='tax_amount']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                
+                <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="on_change">onchange_date(date, period_id)</attribute>
+                </xpath>
+                
+            </field>
+         </record>-->
+         <!--<data noupdate="1">-->
+<!--       <record forcecreate="True" id="ir_cron_remaind_invoice_duedate_over_update" model="ir.cron">
+	        <field name="name">Update Invoice Due Date Remainder</field>
+	        <field eval="True" name="active" />
+	        <field name="user_id" ref="base.user_root" />
+	        <field name="interval_number">1</field>
+	        <field name="interval_type">days</field>
+	        <field name="numbercall">-1</field>
+	        <field eval="True" name="doall" />
+	        <field eval="'account.invoice'" name="model" />
+	        <field eval="'invoice_due_date_scheduler'" name="function" />
+	        <field eval="'()'" name="args" />
+      </record>
+      
+      <record forcecreate="True" id="ir_cron_remaind_invoice_followup_update" model="ir.cron">
+            <field name="name">Update Invoice Follow-up Date Remainder</field>
+            <field eval="True" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall" />
+            <field eval="'account.invoice.followup'" name="model" />
+            <field eval="'next_date_scheduler'" name="function" />
+            <field eval="'()'" name="args" />
+      </record>-->
+	<!--</data>-->
+</odoo>

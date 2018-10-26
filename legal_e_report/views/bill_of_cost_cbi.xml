@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="bill_of_cost_cbi_custom_document">
+            <t t-call="legal_e_report.india_law_layout_invoice">
+            <br/>
+            <t t-call="web.basic_layout">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                <div class="page">
+                    <table style="border:1px solid ; border-collapse=collapse; width:100%">
+                        <tr style="border:1px solid">
+                            <td style="border:1px solid; padding: 5px; text-align:left; border-right:none">
+                                <span style="font-size:14"><b>Bill No :</b></span>
+                                <b><span style="font-size:14" t-field="o.sequence_number_next_prefix"/></b>
+                                <b><span style="font-size:14" t-field="o.sequence_number_next"/></b><br/>
+                                <b><span style="font-size:14"/>To,</b><br/>
+                                <b><span style="font-size:14" t-field="o.partner_id.name"/></b><br/>
+                                <span style="font-size:14" t-field="o.partner_id.street"/><br/>
+                                <span style="font-size:14" t-field="o.partner_id.street2"/>
+                                <span style="font-size:14" t-field="o.partner_id.city"/>
+                                <span style="font-size:14" t-field="o.partner_id.zip"/><br/>
+                                <span style="font-size:14" t-field="o.partner_id.city"/>
+                                <span style="font-size:14" t-field="o.partner_id.zip"/><br/>
+                                <span style="font-size:14" t-field="o.partner_id.state_id"/><br/>
+                                <span style="font-size:14" t-field="o.partner_id.country_id"/><br/>
+                                <span style="font-size:12">Tel.</span>
+                                <span style="font-size:14" t-field="o.partner_id.phone"/><br/>
+                            </td>
+                            <td style="border:1px solid; padding-right:5px; text-align:right; border-left:none">
+                                <b><span style="font-size:14">Date :</span></b>
+                                <span style="font-size:14" t-field="o.custom_bill_date"/><br/>
+                                <span style="font-size:14">Client Ref:</span>
+                                <span style="font-size:14" t-field="o.custom_client_reference"/><br/>
+                            </td>
+                        </tr>
+                        <tr style="border:1px solid">
+                            <td style="border:1px solid; border-right:none; padding: 5px">
+                                <span style="font-size:14">Ref:</span>
+                                <span style="font-size:14"/><br/>
+                                <span style="font-size:14" t-field="o.partner_id.name"/><br/>
+                                <span style="font-size:14"/> V /S<br/>
+                                <span style="font-size:14"/><br/>
+                            </td>
+                            <td style="border:1px solid; padding:5px; border-left:none">
+                                <span style="font-size:14"></span><br/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="border:1px solid ; border-collapse=collapse; width:100%">
+                        <tr style="border:1px solid">
+                            <td style="border:1px solid; padding: 5px; text-align:center; width:10%">
+                                <span style="font-size:14"><b>SR NO.</b></span><br/>
+                            </td>
+                            <td style="border:1px solid; padding: 5px; text-align:center; width:75%">
+                                <span style="font-size:14"><b>PARTICULARS</b></span><br/>
+                            </td>
+                            <td style="border:1px solid; padding: 5px; text-align:center; width:15%">
+                                <span style="font-size:14"><b>AMOUNT</b></span><br/>
+                            </td>
+                        </tr>
+
+                        <t t-set="lines" t-value="len(o.particular_invoice_line_ids)"/>
+                        <t t-set='i' t-value='1'/>
+                        <tr t-foreach="o.particular_invoice_line_ids" t-as="l">
+                            <td  class="text-center" style="font-size:14;border:1px solid; border-top:none; border-bottom:none">
+                                <t t-esc="i"/>
+                            </td>
+                            <td class="text-left" style="padding-left:5px; font-size:14; border:1px solid; border-top:none; border-bottom:none">
+                                <span t-field="l.name"/>
+                            </td>
+                            <td class="text-center" style="font-size:14;border:1px solid; border-top:none; border-bottom:none">
+                                <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency":o.company_id.currency_id}'/>
+                            </td>
+                        <t t-set='i' t-value='i+1'/>
+                        </tr>
+                    <t t-raw="o.get_extra_rows(lines)"/>
+
+
+                        <tr style="border:1px solid">
+                            <td style="border:1px solid; padding: 5px; text-align:right" colspan="2">
+                                <span style="font-size:14"><b>GROSS TOTAL</b></span><br/>
+                                <span style="font-size:14"><b>LESS ADVANCE</b></span><br/>
+                                <span style="font-size:14"><b>ROUNDING TOTAL</b></span>
+                            </td>
+                            <td style="border:1px solid; padding: 5px; text-align:center">
+                                <b><span style="font-size:14" t-field="o.particular_invoice_line_ids.price_unit" t-options='{"widget": "monetary", "display_currency":o.company_id.currency_id}'/></b><br/>
+                                <span style="font-size:14"></span><br/>
+                                <b><span style="font-size:14" t-field="o.particular_invoice_line_ids.price_unit" t-options='{"widget": "monetary", "display_currency":o.company_id.currency_id}'/></b>
+                            </td>
+                        </tr>
+
+                        <tr style="border-bottom:none">
+                            <td style="border:1px solid; padding: 5px; width:60%" colspan="3">
+                                <b><span style="font-size:12">E. &amp; O. E.</span></b><br/>
+                                <b><span style="font-size:12">Permanent Account Number:</span></b>
+                                <span style="font-size:12">Permanent Account Number:</span><br/>
+                                <span style="font-size:12">1. Please make the payment within seven days from the date of bill</span><br/>
+                                <span style="font-size:12">2. Quote our Bill No. with your remittance</span><br/>
+                                <span style="font-size:12">3. Payment to be made by A/c. payee cheque/demand draft in favour of “Indialaw LLP” or NEFT/RTGS/ONLINE payment</span><br/>
+                                <span style="font-size:12">to Central Bank of India , Washi Turbhe Branch A/c no. 3472426949 IFSC Code: CBIN0281217 favouring “Indialaw LLP”</span><br/>
+                                <b><span style="font-size:12">4. GST , if any will be paid by the “SERVICE RECEIVER“ as INDIALAW LLP being a Legal service provider falls</span></b><br/>
+                                <b><span style="font-size:12">under the Reverse Charge Category as approved by GST Council</span></b><br/>
+                                <span style="font-size:12">5. Registration :- Central Government vide notification No. 5/2017 dated 19th June 2017 exempted Service falls under</span><br/>
+                                <span style="font-size:12">Reverse Charge Category from obtaining registration under the Act</span><br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+
+                            </td>
+                        </tr>
+                        <tr style="border:1px solid">
+                            <td style="border:1px solid; padding: 5px; text-align:right" colspan="3">
+                                <b><span style="font-size:14">AUTHORISED SIGNATORY</span></b>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+            </t>
+        </template>
+        <template id="bill_of_cost_cbi_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="legal_e_report.bill_of_cost_cbi_custom_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

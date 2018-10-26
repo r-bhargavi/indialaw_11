@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <record id="legal_e_account_view_res_company_form_inherit" model="ir.ui.view">
+            <field name="name">legal_e_account.view.res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">                     
+                <data>
+                    <xpath expr="//field[@name='phone']" position="after">
+                            <group name="bad_debts" string="Bad Debts">
+                            <field name="bad_debts_journal_id" required="1"/>
+                        </group>
+                    </xpath>
+	                
+	                
+                    <notebook position="inside">
+                    <page string="Billing Ledger Accounts">
+                        <!--<field name="ledger_account_ids" nolabel="1" colspan="4" domain="[('type','!=','view')]"/>-->
+                        <field name="ledger_account_ids" nolabel="1" colspan="4" />
+                    </page>
+                    <page string="Billing Bank Accounts">
+                        <field name="bank_account_ids" nolabel="1" colspan="4" />
+                    </page>
+                    </notebook>
+                </data>
+            </field>
+        </record>
+	</data>
+</odoo>	    

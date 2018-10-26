@@ -1,0 +1,163 @@
+<!-- This is demo Data for College -->
+
+<odoo>
+	<data noupdate="1">
+		<record model="college.master" id="id1">
+       		<field name="name">Amity Law School, Delhi</field>
+    	</record>
+		<record model="college.master" id="id2">
+       		<field name="name">Bhartiya Vidyapeeth, New Law College, Pune</field>
+    	</record>
+		<record model="college.master" id="id3">
+       		<field name="name">Bishop Cotton Women's Christian Law College, Bangalore</field>
+    	</record>
+		<record model="college.master" id="id4">
+       		<field name="name">Campus Law Centre, Delhi</field>
+    	</record>
+		<record model="college.master" id="id5">
+       		<field name="name">Cardiff University, UK</field>
+    	</record>
+		<record model="college.master" id="id6">
+       		<field name="name">Christ University School of Law, Bangalore</field>
+    	</record>
+		<record model="college.master" id="id7">
+       		<field name="name">Columbia Law School, New York</field>
+    	</record>
+		<record model="college.master" id="id8">
+       		<field name="name">D.E.S. Law College, Pune</field>
+    	</record>
+		<record model="college.master" id="id9">
+       		<field name="name">Dr. Ambedkar College of Law, Mumbai</field>
+    	</record>
+		<record model="college.master" id="id10">
+       		<field name="name">Dr. D.Y. Patil College of Law, Mumbai</field>
+    	</record>
+		<record model="college.master" id="id11">
+       		<field name="name">G.J. Advani Law College, Mumbai</field>
+    	</record>
+		<record model="college.master" id="id12">
+       		<field name="name">Georgetown University Law Center, Washington DC</field>
+    	</record>
+		<record model="college.master" id="id13">
+       		<field name="name">GLC, Mumbai</field>
+    	</record>
+		<record model="college.master" id="id14">
+       		<field name="name">GNLU, Gandhinagar</field>
+    	</record>
+		<record model="college.master" id="id15">
+       		<field name="name">Guru Gobind Singh Indraprastha University, Delhi</field>
+    	</record>
+		<record model="college.master" id="id16">
+       		<field name="name">Harvard Law School, Cambridge</field>
+    	</record>
+		<record model="college.master" id="id17">
+       		<field name="name">HNLU, Raipur</field>
+    	</record>
+		<record model="college.master" id="id18">
+       		<field name="name">ILS Law College, Pune</field>
+    	</record>
+		<record model="college.master" id="id19">
+       		<field name="name">Jindal Global Law School,Sonipat</field>
+    	</record>
+		<record model="college.master" id="id20">
+       		<field name="name">Jitendra Chauhan College of Law, Mumbai</field>
+    	</record>
+		<record model="college.master" id="id21">
+       		<field name="name">K.C. Law College, Mumbai</field>
+    	</record>
+		<record model="college.master" id="id22">
+       		<field name="name">KIIT School of Law, Bhubaneswar</field>
+    	</record>
+		<record model="college.master" id="id23">
+       		<field name="name">King's College, Landon</field>
+    	</record>
+		<record model="college.master" id="id24">
+       		<field name="name">KLE Society's Law College, Bangalore</field>
+    	</record>
+		<record model="college.master" id="id25">
+       		<field name="name">Leiden University, Netherlands</field>
+    	</record>
+		<record model="college.master" id="id26">
+       		<field name="name">M.S. Ramaiah College of Law, Bangalore</field>
+    	</record>
+		<record model="college.master" id="id27">
+       		<field name="name">NALSAR, Hyderabad</field>
+    	</record>
+		<record model="college.master" id="id28">
+       		<field name="name">Nirma University, Ahmedabad</field>
+    	</record>
+		<record model="college.master" id="id29">
+       		<field name="name">NLIU, Bhopal</field>
+    	</record>
+		<record model="college.master" id="id30">
+       		<field name="name">NLSIU, Bangalore</field>
+    	</record>
+		<record model="college.master" id="id31">
+       		<field name="name">NLU, Delhi</field>
+    	</record>
+		<record model="college.master" id="id32">
+       		<field name="name">NLU, Jodhpur</field>
+    	</record>
+		<record model="college.master" id="id33">
+       		<field name="name">NLU, Odisha</field>
+    	</record>
+		<record model="college.master" id="id34">
+       		<field name="name">NUALS, Kochi</field>
+    	</record>
+		<record model="college.master" id="id35">
+       		<field name="name">Osmania University, Hyderabad</field>
+    	</record>
+		<record model="college.master" id="id36">
+       		<field name="name">Pravin Ghandhi College of Law, Mumbai</field>
+    	</record>
+		<record model="college.master" id="id37">
+       		<field name="name">Rajiv Ghandhi National University of Law, Patiala</field>
+    	</record>
+		
+		<record model="college.master" id="id38">
+			<field name="name">Other</field>
+		</record>
+		<record model="college.master" id="id39">
+			<field name="name">Yashwatrao Chavan Law College,Pune</field>
+		</record>
+		<record model="college.master" id="id40">
+			<field name="name">UPES, Dehradun</field>
+		</record>
+		<record model="college.master" id="id41">
+			<field name="name">University of Warwick, England</field>
+		</record>
+		<record model="college.master" id="id42">
+			<field name="name">University of Pune</field>
+		</record>
+		<record model="college.master" id="id43">
+			<field name="name">University of Mumbai</field>
+		</record>
+		<record model="college.master" id="id44">
+			<field name="name">University of Geneva, Switzerland</field>
+		</record>
+		<record model="college.master" id="id45">
+			<field name="name">University of Cambridge</field>
+		</record>
+		<record model="college.master" id="id46">
+			<field name="name">University Law College, Banglore</field>
+		</record>
+		<record model="college.master" id="id47">
+			<field name="name">Symbiosis Law School, Pune</field>
+		</record>
+		<record model="college.master" id="id48">
+			<field name="name">Symbiosis Law School, Noida</field>
+		</record>
+		<record model="college.master" id="id50">
+			<field name="name">RMLNLU, Lucknow</field>
+		</record>
+		<record model="college.master" id="id51">
+			<field name="name">Rizvi Law College, Mumbai</field>
+		</record>
+		<record model="college.master" id="id52">
+			<field name="name">RGNLU, Patiala</field>
+		</record>
+		<record model="college.master" id="id53">
+			<field name="name">Rajiv Gandhi School Of Intellectual Property Law, Kharagpur</field>
+		</record>
+	</data>
+</odoo>

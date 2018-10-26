@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--<record id="seq_type_supplier" model="ir.sequence.type">-->
+            <!--<field name="name">Supplier</field>-->
+            <!--<field name="code">res.partner</field>-->
+        <!--</record>-->
+
+        <record id="seq_supplier" model="ir.sequence">
+            <field name="name">Supplier</field>
+            <field name="code">res.partner</field>
+            <field name="prefix">SU</field>
+            <field name="padding">4</field>
+            <field name="supplier_code" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

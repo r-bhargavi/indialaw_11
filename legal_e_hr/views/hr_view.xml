@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <record id="view_employee_form_inherit5" model="ir.ui.view">
+            <field name="name">view.employee.form.inherit5</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">160</field>
+            <field name="arch" type="xml">
+                <form string="Employee">
+                    <sheet>
+                        <field name="image_medium" widget='image' class="oe_left oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <label for="category_ids" class="oe_edit_only"/>
+                            <field name="category_ids" widget="many2many_tags" placeholder="e.g. Part Time"/>
+                            <label for="code"/>
+    		            <field name="code" readonly="1"/>
+                        </div>
+                        <div class="oe_right oe_button_box" name="button_box">
+                            <!-- Put here related buttons -->
+                        </div>
+                        <notebook>
+                            <page string="Work Information">
+                                <group>
+                                    <group string="Contact Information">
+                                        <!--<field name="address_id" on_change="onchange_address_id(address_id)" context="{'show_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>-->
+                                        <field name="work_email" widget="email"/>
+                                        <field name="work_phone"/>
+                                        <field name="mobile_phone"/>
+                                        <field name="work_location"/>
+                                    </group>
+                                    <group string="Position">
+                                        <field name="department_id" on_change="onchange_department_id(department_id)"/>
+                                        <field name="job_id" options='{"no_open": True}' domain="[('state','!=','old')]" context="{'form_view_ref': 'hr.view_hr_job_employee_form'}"/>
+                                        <field name="parent_id"/>
+                                        <field name="coach_id"/>
+                                        <field name="ho_branch_id" string="Office"></field>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" groups="base.group_multi_company" on_change="onchange_company(company_id)"/>
+                                        <field name="user_id" on_change="onchange_user(user_id)" string="Related User"/>
+                                    </group>
+                                </group>
+                                <field name="notes" placeholder="Other Information ..." colspan="4"/>
+                            </page>
+                            <page string="Personal Information">
+                                <group>
+                                    <group string="Citizenship &amp; Other Info">
+                                        <field name="country_id" options='{"no_open": True}'/>
+                                        <field name="identification_id"/>
+                                        <field name="passport_id"/>
+                                        <field name="bank_account_id"/>
+                                        <field name="pan_id"/>
+		    			<field name="tds"/>
+                                        <!--<field name="otherid"/>-->
+                                    </group>
+                                    <group string="Contact Information">
+                                        <field name="address_home_id" context="{'show_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                                        <field name="street"/>
+                                        <field name="street2"/>
+                                        <field name="city"/>
+                                        <field name="state_id"/>
+                                        <field name="country_id"/>
+                                        <field name="zip"/>
+                                    </group>
+                                    <group string="Status">
+                                        <field name="gender"/>
+                                        <field name="marital"/>
+                                        <field name="children"/>
+                                    </group>
+                                    <group string="Birth">
+                                        <field name="birthday"/>
+                                        <field name="place_of_birth"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="HR Settings">
+                                <group>
+                                    <group string="Contract">
+                            		<field name="medic_exam" string="Medical Exam"/>
+                            		<field name="vehicle"/>
+                            		<field name="vehicle_distance"/>
+                        	    </group>
+                        	    <group string="Appraisals">
+                    			<!--<field name="evaluation_plan_id"/>-->
+                    			<!--<field name="evaluation_date"/>-->
+                		    </group>
+                		    <group string="Timesheets">
+                        		<!--<field name="product_id" domain="[('type','=','service')]"/>-->
+                        		<!--<field name="journal_id"/>-->
+                    		    </group>
+                    		    <group string="Leaves">
+                        		<label for="remaining_leaves"/>
+				        <div>
+				            <field name="remaining_leaves" class="oe_inline"/> days
+				        </div>
+				    </group>
+                                    <group string="Active" name="active_group">
+                                        <field name="active"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="open_view_mydetails" model="ir.actions.act_window">
+            <field name="name">My Profile</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('user_id','=',uid)]</field>
+            <field name="filter" eval="True"/>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to see your details.
+              </p>
+            </field>
+        </record>
+        <record id="view_employee_tree_mydetails" model="ir.ui.view">
+            <field name="name">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <tree string="Employees" create="false">
+                    <field name="name"/>
+                    <field name="work_phone"/>
+                    <field name="work_email"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="parent_id"/>
+                    <field name="coach_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="hr_holidays.request_approve_holidays">
+            <field name="name">Requests to Approve</field>
+            <field name="res_model">hr.holidays</field>
+            <field name="view_type">form</field>
+            <field name="context">{'default_type': 'remove', 'search_default_approve':1}</field>
+            <field name="domain">[('type','=','remove')]</field>
+            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter"/>
+        </record>
+
+
+        <!--id not found in default-->
+     <!--<record id="base_calendar.action_crm_meeting" model="ir.actions.act_window">-->
+        <!--<field name="name">Meetings</field>-->
+        <!--<field name="res_model">crm.meeting</field>-->
+        <!--<field name="view_mode">calendar,tree,form,gantt</field>-->
+        <!--<field name="view_id" ref="base_calendar.view_crm_meeting_calendar"/>-->
+        <!--<field name="search_view_id" ref="base_calendar.view_crm_meeting_search"/>-->
+        <!--&lt;!&ndash;<field name="context">{"calendar_default_user_id": uid}</field>&ndash;&gt;-->
+	    <!--&lt;!&ndash;<field name="domain">[('user_id','=',uid)]</field>&ndash;&gt;-->
+        <!--<field name="help" type="html">-->
+          <!--<p class="oe_view_nocontent_create">-->
+            <!--Click to schedule a new meeting.-->
+          <!--</p>-->
+            <!--<p>-->
+            <!--The calendar is shared between employees and fully integrated with-->
+            <!--other applications such as the employee holidays or the business-->
+            <!--opportunities.-->
+          <!--</p>-->
+        <!--</field>-->
+    <!--</record>-->
+
+     <record id="open_teams_leave_calendar" model="ir.actions.act_window">
+        <field name="name">Team Leaves Calendar</field>
+        <field name="res_model">hr.holidays</field>
+         <field name="view_type">form</field>
+        <field name="view_mode">calendar,form</field>
+        <field name="context">{}</field>
+	    <!--<field name="domain">[('employee_id.parent_id.user_id','=',user_id)]</field>-->
+        <!--<field name="help" type="html"/>-->
+        <!--</field>-->
+    </record>
+
+    <record model="ir.actions.act_window" id="all_request_holidays">
+            <field name="name">All Leave Requests</field>
+            <field name="res_model">hr.holidays</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,tree</field>
+            <field name="context">{'default_type': 'remove', 'search_default_approve':1}</field>
+            <field name="domain">[('type','=','remove')]</field>
+            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter"/>
+        </record>
+
+    <menuitem name="All Leave Requests" parent="hr_holidays.menu_open_department_leave_approve" id="menu_all_request_holidays" action="all_request_holidays" groups="hr.group_hr_manager"/>
+
+      <record model="ir.actions.act_window.view" id="action_hr_employee_mydetails">
+           <field name="sequence" eval="10"/>
+          <field name="view_mode">form</field>
+          <field name="view_id" ref="view_employee_form_inherit5"/>
+          <field name="act_window_id" ref="open_view_mydetails"/>
+      </record>
+
+      <record model="ir.actions.act_window.view" id="action_hr_employee_mydetails_tree">
+           <field name="sequence" eval="5"/>
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="view_employee_tree_mydetails"/>
+          <field name="act_window_id" ref="open_view_mydetails"/>
+      </record>
+        <menuitem action="open_view_mydetails" id="menu_open_view_mydetails" sequence="1" parent="hr.menu_hr_main"/>
+        <menuitem name="Leaves Summary" parent="hr_holidays.menu_hr_holidays_my_leaves" id="hr_holidays.menu_open_company_allocation" action="hr_holidays.open_company_allocation" sequence="40" groups="hr.group_hr_manager"/>
+        <menuitem name="Leave Calendar" parent="hr_holidays.menu_hr_holidays_my_leaves" id="menu_team_leave_calendar" action="open_teams_leave_calendar" sequence="43" groups="hr.group_hr_user"/>
+
+
+
+
+
+        <record id="view_public_holidays_tree" model="ir.ui.view">
+            <field name="name">hr.holidays.public.tree</field>
+            <field name="model">hr.holidays.public</field>
+            <field name="arch" type="xml">
+                <tree string="Public Holidays">
+                    <field name="year"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_public_holidays_form" model="ir.ui.view">
+            <field name="name">hr.holidays.public.form</field>
+            <field name="model">hr.holidays.public</field>
+            <field name="arch" type="xml">
+                <form string="Public Holidays">
+                    <group>
+                        <field name="year"/>
+                    </group>
+                    <newline/>
+                    <group string="Public Holidays" colspan="4" col="1">
+                        <field name="line_ids" nolabel="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_public_holiday_line_tree" model="ir.ui.view">
+            <field name="name">hr.holidays.public.line.tree</field>
+            <field name="model">hr.holidays.public.line</field>
+            <field name="arch" type="xml">
+                <tree string="Public Holidays" editable="top">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="variable"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="open_public_holidays_view" model="ir.actions.act_window">
+            <field name="name">Public Holidays</field>
+            <field name="res_model">hr.holidays.public</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="open_public_holidays_view"
+                  id="menu_public_holidays_view"
+                  parent="hr_holidays.menu_hr_holidays_configuration"
+                  sequence="20"/>
+
+
+
+        <!--<record id="hr_timesheet_sheet_form_inh_legale" model="ir.ui.view">-->
+            <!--<field name="name">hr.timesheet.sheet.form.inh.legale</field>-->
+            <!--<field name="model">hr_timesheet_sheet.sheet</field>-->
+            <!--<field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>-->
+            <!--<field name="arch" type="xml">-->
+            <!--<xpath expr="//button[@name='button_confirm']" position="after">-->
+                    <!--<button name="button_reset" states="draft" string="Reset To Draft" type="object" />-->
+                    <!--<button name="button_open" states="new" string="Open" type="object" />-->
+                    <!---->
+            <!--</xpath>-->
+            <!---->
+            <!--<page string="Details" position="replace">-->
+            <!--<page string="All Details" invisible="1">-->
+                            <!--<field context="{'employee_id': employee_id, 'user_id':user_id, 'timesheet_date_from': date_from, 'timesheet_date_to': date_to}" name="timesheet_ids" nolabel="1">-->
+                                <!--<tree editable="top" string="Timesheet Activities">-->
+                                    <!--<field name="date"/>-->
+                                    <!--<field domain="[('type','in',['normal','contract']), ('state', '&lt;&gt;', 'close'),('use_timesheets','=',1)]" name="account_id" on_change="on_change_account_id(account_id, user_id)" context="{'default_use_timesheets': 1}" invisible="0" required="1"/>-->
+                                    <!--<field name="name"/>-->
+                                    <!--<field name="from_time" widget="float_time" required="1" on_change="onchange_time(from_time,to_time)"/>-->
+                                    <!--<field name="to_time" widget="float_time" required="1" on_change="onchange_time(from_time,to_time)"/>-->
+                                    <!--<field name="unit_amount" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)" widget="float_time" string="Hours" sum="Hours"/>-->
+                                    <!--<field name="to_invoice" widget="selection" invisible="1"/>-->
+                                    <!--<field invisible="1" name="journal_id"/>-->
+                                    <!--<field invisible="1" name="product_id" domain="[('type','=','service')]" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)"/>-->
+                                    <!--<field invisible="1" name="product_uom_id" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)"/>-->
+                                    <!--<field invisible="1" name="amount"/>-->
+                                    <!--<field invisible="1" name="general_account_id"/>-->
+                                    <!--<field invisible="1" name="user_id" required="1"/>-->
+                                <!--</tree>-->
+                                <!--<form string="Timesheet Activities">-->
+                                    <!--<field name="date"/>-->
+                                    <!--<field domain="[('type','=','normal'), ('state', '&lt;&gt;', 'close')]" name="account_id" on_change="on_change_account_id(account_id, user_id)"/>-->
+                                    <!--<field name="name"/>-->
+                                    <!--<field name="unit_amount" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)" widget="float_time"/>-->
+                                    <!--<field name="to_invoice"/>-->
+                                    <!--<field name="journal_id"/>-->
+                                    <!--<field name="product_id" domain="[('type','=','service')]" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)"/>-->
+                                    <!--<field name="product_uom_id" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)"/>-->
+                                    <!--<field name="amount"/>-->
+                                    <!--<field name="general_account_id"/>-->
+                                    <!--<field name="user_id" required="1"/>-->
+                                <!--</form>-->
+                            <!--</field>-->
+                        <!--</page>-->
+            <!--</page>-->
+            <!--<page string="Summary" position="after">-->
+            <!--<page string="Project Wise Details" invisible="1">-->
+            <!--<field name="project_task_work_ids" context="{'employee_id': employee_id, 'user_id':user_id, 'timesheet_date_from': date_from, 'timesheet_date_to': date_to}" nolabel="1" attrs="{'readonly':[('state','not in',['new','draft'])]}">-->
+                <!--<tree string="Task Work" editable="top">-->
+                    <!--<field name="date" required="1"/>                    -->
+                    <!--<field name="project_id" required="1"/>-->
+                    <!--<field name="task_id" domain="[(project_id and ('project_id','=',project_id) or ('name','!=',False))]"/>-->
+                    <!--<field name="name" required="1"/>-->
+                    <!--<field name="from_time" widget="float_time" required="1" on_change="onchange_time(from_time,to_time)"/>-->
+                    <!--<field name="to_time" widget="float_time" required="1" on_change="onchange_time(from_time,to_time)"/>-->
+                    <!--<field name="hours" widget="float_time" sum="Spent Hours" readonly="0" required="1"/>                    -->
+                    <!--<field name="user_id" invisible="1"/>-->
+                    <!--<field name="timesheet_id" invisible="1"/>-->
+                <!--</tree>-->
+            <!--</field>-->
+            <!--</page>-->
+            <!--</page>-->
+            <!--</field>-->
+        <!--</record>-->
+
+
+        <record id="view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">view.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+				    <xpath expr="//page[last()]" position="after">
+				    	<page string="Transfer History" groups="hr.group_hr_manager">
+				    		<group sting="Employee Transfer History">
+							    <field name="hr_employee_transfer_history_ids" nolabel="1">
+							    	<tree>
+							    		<field name="date"/>
+							    		<field name="description"/>
+							    	</tree>
+							    </field>
+						    </group>
+					    </page>
+					    <page string="Promotion History" groups="hr.group_hr_manager">
+				    		<group sting="Employee Promotion History">
+					    		<field name="hr_employee_promotion_history_ids" nolabel="1">
+					    			<tree>
+							    		<field name="date"/>
+							    		<field name="description"/>
+							    	</tree>
+							    </field>
+					    	</group>
+					    </page>
+					    <page string="Recommendation History" groups="hr.group_hr_manager">
+				    		<group sting="Employee Recommendation History">
+					    		<field name="hr_employee_recommendation_history_ids" nolabel="1">
+					    			<tree>
+							    		<field name="date"/>
+							    		<field name="description"/>
+							    	</tree>
+							    </field>
+					    	</group>
+					    </page>
+				    </xpath>
+				 </data>
+			</field>
+		</record>
+
+        <record id ="view_hr_employee_transfer_history_form" model ="ir.ui.view">
+			<field name="name">hr.employee.transfer.history.form</field>
+			<field name="model">hr.employee.transfer.history</field>
+			<field name="arch" type = "xml">
+				<form string="Employee Transfer History">
+					<group col="4">
+					<field name="date"/>
+
+					<label for="description"/>
+					<field name="description" nolabel="1"/>
+                    </group>
+				</form>
+			</field>
+		</record>
+
+        <record id ="view_hr_employee_promotion_history_form" model ="ir.ui.view">
+			<field name="name">hr.employee.promotion.history.form</field>
+			<field name="model">hr.employee.promotion.history</field>
+			<field name="arch" type = "xml">
+				<form string="Employee Promotion History">
+					<group col="4">
+					<field name="date"/>
+
+					<label for="description"/>
+					<field name="description" nolabel="1"/>
+                    </group>
+				</form>
+			</field>
+		</record>
+
+		<record id ="view_hr_employee_recommendation_history_form" model ="ir.ui.view">
+			<field name="name">hr.employee.recommendation.history.form</field>
+			<field name="model">hr.employee.recommendation.history</field>
+			<field name="arch" type = "xml">
+				<form string="Employee Recommendation History">
+					<group col="4">
+					<field name="date"/>
+
+					<label for="description"/>
+					<field name="description" nolabel="1"/>
+                    </group>
+				</form>
+			</field>
+		</record>
+
+        <record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
+        	<field name="domain">[('active','=',1)]</field>
+        </record>
+
+        <record id="open_view_employee_list_my_inherit" model="ir.actions.act_window">
+            <field name="name">Ex employees</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('active','=',0)]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr.view_employee_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new employee.
+              </p><p>
+                With just a quick glance on the OpenERP employee screen, you
+                can easily find all the information you need for each person;
+                contact data, job position, availability, etc.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="open_view_employee_list_my_inherit"
+         id="menu_open_view_employee_list_my_inherit"
+         sequence="3"
+         groups="hr.group_hr_manager"
+         parent="hr.menu_hr_main"/>
+
+
+
+        <!--<menuitem action="hr_timesheet.action_hr_timesheet_users"-->
+            <!--id="hr_timesheet.menu_hr_timesheet_users"-->
+            <!--parent="legal_e.sub_menu_report_case_entries"-->
+            <!--groups="hr.group_hr_manager" sequence="2" icon="STOCK_PRINT"/>-->
+
+
+       <!--<record id="view_hr_timesheet_employee_form_inherit_employee" model="ir.ui.view">-->
+            <!--<field name="name">hr.analytical.timesheet.employee.form.inherit.employee</field>-->
+            <!--<field name="model">hr.analytical.timesheet.employee</field>-->
+            <!--<field name="inherit_id" ref="hr_timesheet.view_hr_timesheet_employee"/>-->
+            <!--<field name="arch" type="xml">                     -->
+                <!--<xpath expr='//field[@name="employee_id"]' position="replace">-->
+            	    <!--<field name="employee_id"/>-->
+                <!--</xpath>-->
+			<!--</field>-->
+		<!--</record>-->
+
+
+        <!--<record id="view_hr_timesheet_employee_form_inherit" model="ir.ui.view">-->
+            <!--<field name="name">hr.analytical.timesheet.employee.form.inherit</field>-->
+            <!--<field name="model">hr.analytical.timesheet.employee</field>-->
+            <!--<field name="priority">20</field>-->
+            <!--<field name="inherit_id" ref="hr_timesheet.view_hr_timesheet_employee"/>-->
+            <!--<field name="groups_id" eval="[(6, 0, [ref('legal_e.group_legal_e_lawyers'),ref('legal_e.group_legal_e_client_service_manager'),ref('legal_e.group_legal_e_employee_executive')])]"/>-->
+            <!--<field name="arch" type="xml">                     -->
+                <!--<xpath expr='//field[@name="employee_id"]' position="attributes">-->
+            	    <!--<attribute name="readonly">1</attribute>-->
+                <!--</xpath>-->
+			<!--</field>-->
+		<!--</record>-->
+
+
+
+
+		<menuitem parent="hr_holidays.menu_hr_holidays_my_leaves" groups="hr.group_hr_manager" id="hr_holidays.menu_open_allocation_holidays" action="hr_holidays.open_allocation_holidays"/>
+
+
+
+        <!--<record id="view_hr_timesheet_users_form_inherit" model="ir.ui.view">-->
+            <!--<field name="name">hr.analytical.timesheet.users.form.inherit</field>-->
+            <!--<field name="model">hr.analytical.timesheet.users</field>-->
+            <!--<field name="priority">20</field>-->
+            <!--<field name="inherit_id" ref="hr_timesheet.view_hr_timesheet_users"/>-->
+            <!--<field name="groups_id" eval="[(6, 0, [ref('legal_e.group_legal_e_lawyers'),ref('legal_e.group_legal_e_client_service_manager'),ref('legal_e.group_legal_e_employee_executive')])]"/>-->
+            <!--<field name="arch" type="xml">                     -->
+                <!--<xpath expr='//field[@name="employee_ids"]' position="attributes">-->
+            	    <!--<attribute name="readonly">1</attribute>-->
+                <!--</xpath>-->
+			<!--</field>-->
+		<!--</record>-->
+
+		<!--hr.holidays form inherit (Functionality already present in v11) -->
+		<!--<record id="view_hr_timesheet_users_form_inherit" model="ir.ui.view">-->
+            <!--<field name="name">hr.holidays.form.inherit</field>-->
+            <!--<field name="model">hr.holidays</field>-->
+            <!--<field name="priority">20</field>-->
+            <!--<field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr='//header/button[@name="action_draft"]' position="after">-->
+                    <!--<button string="Refuse" name="refuse" states="management_validate" type="workflow" groups="legal_e_hr.group_hr_management_department"/>-->
+
+            	    <!--<button string="Approve" name="management_validation" states="management_validate"-->
+            	    	<!--type="workflow" class="oe_highlight" groups="legal_e_hr.group_hr_management_department" />-->
+                <!--</xpath>-->
+			<!--</field>-->
+		<!--</record>-->
+
+        <record id="legal_e_hr_view_edit_holiday_new_form_inherit" model="ir.ui.view">
+            <field name="name">legal_e_hr.hr.holidays.form.inherit</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="arch" type="xml">
+            	<xpath expr='//button[@name="action_approve"]' position="attributes">
+            	    <attribute name="groups">legal_e.group_department_head</attribute>
+                </xpath>
+                <xpath expr='//button[@name="action_validate"]' position="attributes">
+            	    <attribute name="groups">legal_e.group_department_head</attribute>
+                </xpath>
+                <xpath expr='//button[@name="action_refuse"]' position="attributes">
+            	    <attribute name="groups">legal_e.group_department_head</attribute>
+                </xpath>
+                <xpath expr='//button[@name="action_draft"]' position="attributes">
+            	    <attribute name="groups">legal_e.group_department_head</attribute>
+                </xpath>
+			</field>
+		</record>
+    </data>
+</odoo>
+
+
+
+
+
+
+
+
+

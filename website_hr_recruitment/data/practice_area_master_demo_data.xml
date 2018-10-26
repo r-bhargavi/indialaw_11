@@ -1,0 +1,88 @@
+<odoo>
+    <data noupdate="1">
+    <record model="practice.area.master" id="p1">
+        <field name="name">Aviation</field>
+    </record>
+	<record model="practice.area.master" id="p2">
+        <field name="name">Banking &amp; Finance</field>
+    </record>
+    <record model="practice.area.master" id="p3">
+        	<field name="name">Backuptcy &amp; Isolvency</field>
+    	</record>
+	<record model="practice.area.master" id="p4">
+        	<field name="name">Capital Markets</field>
+    	</record>
+	<record model="practice.area.master" id="p5">
+        	<field name="name">Competition Law</field>
+    	</record>
+	<record model="practice.area.master" id="p6">
+        	<field name="name">Compliance &amp; Investigation</field>
+    	</record>
+	<record model="practice.area.master" id="p7">
+        	<field name="name">Defence</field>
+    	</record>
+	<record model="practice.area.master" id="p8">
+        	<field name="name">E-commerce &amp; Retail</field>
+    	</record>
+	<record model="practice.area.master" id="p9">
+        	<field name="name">Employment</field>
+    	</record>
+	<record model="practice.area.master" id="p10">
+        	<field name="name">Energy &amp; Natural Resources</field>
+    	</record>
+	<record model="practice.area.master" id="p11">
+        	<field name="name">Financial Services &amp; Fin Tech</field>
+    	</record>
+	<record model="practice.area.master" id="p12">
+        	<field name="name">Funds</field>
+    	</record>
+	<record model="practice.area.master" id="p13">
+        	<field name="name">Information Technology &amp; Business Process Outsourcing</field>
+    	</record>
+	<record model="practice.area.master" id="p14">
+        	<field name="name">Infrastructure &amp; Project Finance</field>
+    	</record>
+	<record model="practice.area.master" id="p15">
+        	<field name="name">Insurance</field>
+    	</record>
+	<record model="practice.area.master" id="p16">
+        	<field name="name">Intellectual Property</field>
+    	</record>
+	<record model="practice.area.master" id="p17">
+        	<field name="name">International Trade/WTO</field>
+    	</record>
+	<record model="practice.area.master" id="p18">
+        	<field name="name">Litigation &amp; Arbitration</field>
+    	</record>
+	<record model="practice.area.master" id="p19">
+        	<field name="name">Media &amp; Entertainment</field>
+    	</record>
+	<record model="practice.area.master" id="p20">
+        	<field name="name">Mergers, Acquisitions, Joints Ventures, General Corporate</field>
+    	</record>
+	<record model="practice.area.master" id="p21">
+        	<field name="name">Microfinance</field>
+    	</record>
+	<record model="practice.area.master" id="p22">
+        	<field name="name">Pharmaceuticals &amp; Biotechnology</field>
+    	</record>
+	<record model="practice.area.master" id="p23">
+        	<field name="name">Private Client Practice</field>
+    	</record>
+	<record model="practice.area.master" id="p24">
+        	<field name="name">Private Equity</field>
+    	</record>
+	<record model="practice.area.master" id="p25">
+        	<field name="name">Real Estate</field>
+    	</record>
+	<record model="practice.area.master" id="p26">
+        	<field name="name">Regulatory Practice &amp; Securities Law</field>
+    	</record>
+	<record model="practice.area.master" id="p27">
+        	<field name="name">Taxation</field>
+    	</record>
+	<record model="practice.area.master" id="p28">
+        	<field name="name">Technology, Media &amp; Telecom</field>
+    	</record>
+    </data>
+</odoo>

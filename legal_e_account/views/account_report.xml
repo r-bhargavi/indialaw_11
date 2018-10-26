@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- rml="legal_e_account/report/bill_of_cost_original.rml" //Use invoice lines to print -->
+        <!-- Change the Print, Line taken by Particular Invoice Line //Sanal Davis // 12-6-15 -->
+        <report
+            auto="False"
+            id="account.account_invoices"
+            model="account.invoice"
+            name="account.invoice.legale2"
+            rml="legal_e_account/report/bill_of_cost.rml"
+            string="Invoices"
+            usage="default"
+            />
+            
+        <report
+            auto="False"
+            id="report_legale_india_llp"
+            model="account.invoice"
+            name="account.invoice.legale_india_llp_2"
+            rml="legal_e_account/report/bill_of_cost_indiallp_2.rml"
+            string="INDIALAW LPP"
+            usage="default"
+            />
+            
+         <report
+            auto="False"
+            id="report_legale_india_vodafone"
+            model="account.invoice"
+            name="account.invoice.legale_vodafone_2"
+            rml="legal_e_account/report/bill_of_cost_vodafone_2.rml"
+            string="Vodaphone"
+            usage="default"
+            />
+            
+        <report
+            auto="False"
+            id="report_legale_india_cost_2"
+            model="account.invoice"
+            name="account.invoice.legale_cost_2"
+            rml="legal_e_account/report/bill_of_cost_2.rml"
+            string="General"
+            usage="default"
+            />
+            
+       <report
+            auto="False"
+            id="report_legale_account_followup"
+            model="account.invoice"
+            name="account.invoice.followup"
+            rml="legal_e_account/report/invoice_followup.rml"
+            string="Invoice Followup"
+            usage="default"
+            />
+            
+       <report
+            auto="False"
+            id="report_legale_india_hdfc"
+            model="account.invoice"
+            name="account.invoice.legale_hdfc_2"
+            rml="legal_e_account/report/bill_of_cost_hdfc_2.rml"
+            string="HDFC"
+            usage="default"
+            />
+            
+       <report
+            auto="False"
+            id="report_legale_india_llp3"
+            model="account.invoice"
+            name="account.invoice.legale_india_llp_3"
+            rml="legal_e_account/report/bill_of_cost_indiallp_3.rml"
+            string="Indialaw LLP"
+            usage="default"
+            />
+    </data>
+</openerp>

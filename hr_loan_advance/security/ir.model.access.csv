@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_advance_mgr,hr.employee.advance.mgr,model_hr_employee_advance,hr.group_hr_manager,1,1,1,1
+access_hr_employee_loan_mgr,hr.employee.loan.mgr,model_hr_employee_loan,hr.group_hr_manager,1,1,1,1
+access_hr_employee_loan_trn_mgr,hr.employee.loan.trn.mgr,model_hr_employee_loan_trn,hr.group_hr_manager,1,1,1,1
+access_hr_employee_advance_user,hr.employee.advance.user,model_hr_employee_advance,hr.group_hr_user,1,1,1,0
+access_hr_employee_loan_user,hr.employee.loan.user,model_hr_employee_loan,hr.group_hr_user,1,1,1,0
+access_hr_employee_loan_trn_user,hr.employee.loan.trn.user,model_hr_employee_loan_trn,hr.group_hr_user,1,1,1,0

@@ -1,0 +1,38 @@
+<odoo>
+    <template id="india_law_layout_invoice">
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <t t-call="legal_e_report.india_law_custom_header" />
+            <t t-raw="0" />
+    </template>
+
+    <template id="india_law_custom_header">
+            <div class="header">
+               <table style="width:100%; height:20">
+                    <tr style="height:125" >
+                        <td style=" width:33%" class="text-center">
+                            <span></span>
+                        </td>
+                        <td style="width:34%" class="text-center">
+                            <p>
+                                <img src='/web/binary/company_logo' style="height:50px; width:300px"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <b><span style="font-size:14">BILL OF COST</span></b>
+                            </p>
+                            <br/>
+                        </td>
+                        <td style="width:33%" class="text-center">
+                            <span></span>
+                        </td>
+                    </tr>
+               </table>
+            </div>
+    </template>
+</odoo>
+

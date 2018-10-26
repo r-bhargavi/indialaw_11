@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>        
+       <record forcecreate="True" id="ir_cron_emp_birthday_update" model="ir.cron">
+        <field name="name">Update Employee Birthday Selection</field>
+           <field name="model_id" ref="model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.run_scheduler_birthdays()</field>
+            <field eval="False" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall" />
+      </record>
+      
+        <!--<record id="view_employee_birthday_filter" model="ir.ui.view">-->
+            <!--<field name="name">Employees Birthdays</field>-->
+            <!--<field name="model">hr.employee</field>-->
+            <!--<field name="inherit_id" ref="hr.view_employee_filter"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="category_ids" position="after">-->
+                  <!--<filter name="birthday_today" string="Today's Birthdays" domain="[('birthday_select','=','1')]" help="Today's Employee Birthdays" icon="terp-check"/>-->
+                  <!--<filter name="birthday_week" string="This Week Birthdays" domain="[('birthday_select','=','2')]" help="This Week  Employees Birthdays" icon="terp-check"/>-->
+                  <!--<filter name="birthday_month" string="This Month Birthdays" domain="[('birthday_select','=','3')]" help="This Month  Employees Birthdays" icon="terp-check"/>-->
+                <!--</field>-->
+             <!--</field>-->
+         <!--</record>-->
+         
+    <!-- HR Kanban View  -->
+
+   <record model="ir.ui.view" id="hr_kanban_view_employees_birthdays">
+        <field name="name">HR - Employees Kanban</field>
+        <field name="model">hr.employee</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="login_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_employee_vignette">
+                            <div class="oe_employee_image">
+                                <a type="open"><img t-att-src="kanban_image('hr.employee', 'image_medium', record.id.value)" class="oe_employee_picture"/></a>
+                            </div>
+                            <div class="oe_employee_details">
+                                <h4>
+                                    <a type="open"><field name="name"/></a>
+                                </h4>
+                                <ul>
+                                    <li id="login_date">
+                                        <span t-if="record.login_date.raw_value &amp;&amp; record.login_date.raw_value.is().today()" class="oe_kanban_button" style="font-size: 100%%">
+                                              <t t-esc="record.login_date.raw_value.toString('HH:mm')"/>
+                                        </span>
+                                    </li>
+                                    <li t-if="record.job_id.raw_value"><field name="job_id"/></li>
+                                    <li t-if="record.mobile_phone.raw_value">Mobile: <field name="mobile_phone"/></li>
+                                    <li t-if="record.work_email.raw_value"><a t-attf-href="mailto:#{record.work_email.value}"><field name="work_email"/></a></li>
+                                    <li t-if="record.birthday_string.raw_value">Birthday : <field name="birthday_string"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <script>
+                            $('.oe_employee_picture').load(function() { if($(this).width() > $(this).height()) { $(this).addClass('oe_employee_picture_wide') } });
+                        </script>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+    
+    <record id="view_employee_form_inherit_birthday" model="ir.ui.view">
+            <field name="name">view.employee.form.inherit_birthday</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+            <field name="birthday" position="replace">
+              <field name="birthday"/>
+              <field name="birthday_string" invisible="1"/>
+              <field name="birthday_select" invisible="1"/>
+            </field>
+            </field>
+    </record>        
+
+        <record model="ir.actions.act_window" id="action_hr_birthdays_month">
+            <field name="name">This Month Birthdays</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <!--<field name="search_view_id" ref="view_employee_birthday_filter"/>-->
+            <field name="view_id" eval="hr_kanban_view_employees_birthdays"/>
+            <field name="context">{'search_default_birthday_month':True}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--<record id="board_hr_birthdays_month_form" model="ir.ui.view">-->
+            <!--<field name="name">board.hr.birthdays.month.form</field>-->
+            <!--<field name="model">board.board</field>-->
+            <!--<field name="inherit_id" ref="board_birthdays_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="/form/board/column[1]" position="inside">-->
+                    <!--<action name="%(action_hr_birthdays_month)d" string="This Month Birthdays"/>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+        
+        <record model="ir.actions.act_window" id="action_hr_birthdays_week">
+            <field name="name">This Week Birthdays</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban</field>
+            <!--<field name="search_view_id" ref="view_employee_birthday_filter"/>-->
+            <field name="view_id" eval="hr_kanban_view_employees_birthdays"/>
+            <field name="context">{'search_default_birthday_week':True}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--<record id="board_hr_birthdays_week_form" model="ir.ui.view">-->
+            <!--<field name="name">board.hr.birthdays.week.form</field>-->
+            <!--<field name="model">board.board</field>-->
+            <!--<field name="inherit_id" ref="board_birthdays_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="/form/board/column[1]" position="inside">-->
+                    <!--<action name="%(action_hr_birthdays_week)d" string="This Week Birthdays"/>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record model="ir.actions.act_window" id="action_hr_birthdays_today">
+            <field name="name">Today's Birthdays</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban</field>
+            <!--<field name="search_view_id" ref="view_employee_birthday_filter"/>-->
+            <field name="view_id" eval="hr_kanban_view_employees_birthdays"/>
+            <field name="context">{'search_default_birthday_today':True}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--<record id="board_hr_birthdays_today_form" model="ir.ui.view">-->
+            <!--<field name="name">board.hr.birthdays.today.form</field>-->
+            <!--<field name="model">board.board</field>-->
+            <!--<field name="inherit_id" ref="board_birthdays_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="/form/board/column[1]" position="inside">-->
+                    <!--<action name="%(action_hr_birthdays_today)d" string="Today's Birthdays"/>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+    </data>
+</openerp>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data noupdate="0">
+		
+		
+		<record id="legal_e_head_hr_holidays" model="ir.rule">
+	        <field name="name">Leave Request Dept Head</field>
+	        <field ref="hr_holidays.model_hr_holidays" name="model_id"/>
+	        <field name="domain_force">['|','|','|',('employee_id.user_id','=',user.id),('employee_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id)]</field>
+	    	<field eval="0" name="perm_unlink"/>
+	        <field eval="1" name="perm_write"/>
+	        <field eval="1" name="perm_read"/>
+	        <field eval="1" name="perm_create"/>
+	        <field name="groups" eval="[(4,ref('legal_e.group_department_head'))]"/>
+	    </record>
+	    
+	    
+	   
+	    <record id="hr_holidays.property_rule_holidays_officer" model="ir.rule">
+	        <field name="groups" eval="[(6,0,[
+	        	ref('hr.group_hr_manager')])
+	        	]"/>
+	    </record>
+	    
+	    <!--<record model="ir.rule" id="legal_e_head_hr_timesheet_rule">-->
+            <!--<field name="name">Timesheet Dept Head</field>-->
+            <!--<field ref="hr_timesheet_sheet.model_hr_timesheet_sheet_sheet" name="model_id"/>-->
+            <!--<field name="global" eval="True"/>-->
+            <!--<field name="domain_force">['|','|','|',('employee_id.user_id','=',user.id),('employee_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id)]</field>-->
+	    	<!--<field eval="0" name="perm_unlink"/>-->
+	        <!--<field eval="1" name="perm_write"/>-->
+	        <!--<field eval="1" name="perm_read"/>-->
+	        <!--<field eval="1" name="perm_create"/>-->
+	        <!--<field name="groups" eval="[(4,ref('legal_e.group_department_head'))]"/>-->
+        <!--</record>-->
+        <!---->
+        <!---->
+         <!--<record model="ir.rule" id="legal_e_head_hr_timesheet_line_rule">-->
+            <!--<field name="name">Timesheet Line Dept Head</field>-->
+            <!--<field ref="hr_timesheet.model_hr_analytic_timesheet" name="model_id"/>-->
+            <!--<field name="global" eval="True"/>-->
+            <!--<field name="domain_force">['|','|','|',('employee_id.user_id','=',user.id),('employee_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id)]</field>-->
+            <!--<field eval="0" name="perm_unlink"/>-->
+            <!--<field eval="1" name="perm_write"/>-->
+            <!--<field eval="1" name="perm_read"/>-->
+            <!--<field eval="1" name="perm_create"/>-->
+            <!--<field name="groups" eval="[(4,ref('legal_e.group_department_head'))]"/>-->
+        <!--</record>-->
+        
+        <!--<record model="ir.rule" id="legal_e_manager_hr_timesheet_rule">-->
+            <!--<field name="name">Timesheet Manager</field>-->
+            <!--<field ref="hr_timesheet_sheet.model_hr_timesheet_sheet_sheet" name="model_id"/>-->
+            <!--<field name="global" eval="True"/>-->
+            <!--<field name="domain_force">[(1,'=',1)]</field>-->
+            <!--<field eval="1" name="perm_unlink"/>-->
+	        <!--<field eval="1" name="perm_write"/>-->
+	        <!--<field eval="1" name="perm_read"/>-->
+	        <!--<field eval="1" name="perm_create"/>-->
+	        <!--<field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>-->
+        <!--</record>-->
+	    
+	    
+	    <!--<record id="hr_timesheet.property_rule_timesheet_manager" model="ir.rule">-->
+	    	<!--<field name="groups" eval="[(6,0,[ref('hr.group_hr_manager')])]"/>-->
+        <!--</record>-->
+        
+        
+        <!--<record id="hr_attendance.property_rule_attendace_manager" model="ir.rule">-->
+            <!--<field name="groups" eval="[(6,0,[ref('hr.group_hr_manager')])]"/>-->
+        <!--</record>-->
+        <!---->
+        
+        
+        
+        
+        <!--<record id="legal_e_head_hr_expense" model="ir.rule">-->
+            <!--<field name="name">HR Expense Dept Head</field>-->
+            <!--<field ref="hr_expense.model_hr_expense_expense" name="model_id"/>-->
+            <!--<field name="domain_force">['|','|','|',('employee_id.user_id','=',user.id),('employee_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id),('employee_id.parent_id.parent_id.user_id','=',user.id)]</field>-->
+            <!--<field eval="0" name="perm_unlink"/>-->
+            <!--<field eval="1" name="perm_write"/>-->
+            <!--<field eval="1" name="perm_read"/>-->
+            <!--<field eval="1" name="perm_create"/>-->
+            <!--<field name="groups" eval="[(4,ref('legal_e.group_department_head'))]"/>-->
+        <!--</record>-->
+        
+        <!--<record id="hr_expense.property_rule_expense_manager" model="ir.rule">-->
+            <!--<field name="groups" eval="[(6,0,[ref('hr.group_hr_manager')])]"/>-->
+        <!--</record>-->
+	    
+	    <!--Management department -->
+	    <record id="group_hr_management_department" model="res.groups">
+	        <field name="name">Management Department</field>
+	        <!--<field name="category_id" ref="legal_e.legale_acess_groups"/>-->
+	        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+	    </record>
+	    
+	    
+	     
+        <record id="legal_e_management_hr_holidays" model="ir.rule">
+            <field name="name">Leave Request Mangement</field>
+            <field ref="hr_holidays.model_hr_holidays" name="model_id"/>
+            <field name="domain_force">[('employee_id.ho_branch_id','in', [loc.id for loc in user.location_ids])]</field>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+            <field name="groups" eval="[(4,ref('legal_e_hr.group_hr_management_department'))]"/>
+        </record>
+        
+	    
+	</data>
+</openerp>

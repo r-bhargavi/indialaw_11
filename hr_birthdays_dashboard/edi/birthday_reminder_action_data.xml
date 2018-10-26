@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <!--Email template -->
+        
+        
+        <record id="email_template_edi_birthday_reminder" model="mail.template">
+            <field name="name">Birthday Wishes...!!</field>
+            <field name="subject">Happy Birthday ${object.name or 'n/a' }</field>
+            <field name="model_id" ref="hr_birthdays_dashboard.model_res_partner" />
+            <field name="auto_delete" eval="True" />
+            <field name="body_html"><![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+                        <p>Birthday Wishes</p>
+                        <p> Wish You a very very Happy Birthday, ${object.name}. Hope you have a great Year Ahead. Stay Healthy, Stay Happy.Cheers. </p>
+                    </div>
+                        ]]>
+            </field>
+        </record>
+
+        <record id="email_template_edi_emp_birthday_reminder" model="mail.template">
+            <field name="name">Birthday Wishes...!!</field>
+            <field name="subject">Happy Birthday ${object.name or 'n/a' }</field>
+            <field name="model_id" ref="hr_birthdays_dashboard.model_hr_employee" />
+            <field name="auto_delete" eval="True" />
+            <field name="body_html"><![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+                        <p>Happy Birthday, ${object.name}</p>
+
+                        <p> We noticed that today is your Special Day, so in commemoration of the occasion, we wanted to send along our best wishes
+                          and thank you for all of your time as our employee. </p>
+                          <p>May the next year bring great joy to you and your loved ones!</p>
+                          <p><img src='/hr_birthdays_dashboard/static/description/birthday.jpeg'/></p>
+                    </div>
+                        ]]>
+            </field>
+        </record>
+        
+        
+    </data>
+</openerp>

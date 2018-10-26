@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>                
+        <record id="view_users_form_inhs" model="ir.ui.view">
+            <field name="name">view.users.form.inhs</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]/group[1]" position="after">
+                    <group string="Allowed Locations" groups="base.group_user">
+                      <field name="location_ids" nolabel="1" widget="many2many_tags"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</odoo>

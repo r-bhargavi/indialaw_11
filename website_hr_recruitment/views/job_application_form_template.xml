@@ -1,0 +1,238 @@
+<!-- This Template is for Application menu display in Website -->
+
+<odoo>
+<template id="application" name="My Application">
+    <t t-call="website.layout">
+    	<div style="background-color:#B6B6B4;">
+    		<h1 class="text-center"><u><b>Legal Application</b></u></h1>
+    	</div>
+    	<div style="background-color:#d6e0f5;">
+        <div id="wrap" class="container" style="background-color:#d6e0f5;">
+        <div class="oe_structure"/>
+            <div class="row" style="background-color:#d6e0f5;">
+            <section id="forms">
+                    <form style="background-color:#d6e0f5;" action="/application/success" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div>
+                    	<h2 class="text-center">
+                			<b><u>Personal Details</u></b>
+            			</h2>
+                    </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>NAME</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="name" required=""/>
+                            </div>
+                       	</div>
+                       	<br/>
+                       	<div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>SURNAME</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="surname" required=""/>
+                            </div>
+                       </div>
+                       <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>DATE OF BIRTH</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="date" class="form-control o_website_form_input" name="date_of_birth" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>EMAIL</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="email" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>CELLPHONE</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="phone" required=""/>
+                            </div>
+                       </div>
+                       <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>ALTENATE PHONE NUMBER</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="alternate_phone" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+	                    	<h2 class="text-center">
+	                			<b><u>Professional Details</u></b>
+	            			</h2>
+                    	</div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>YEARS OF PROFESSIONAL EXPERIENCE</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="professional_experince" required=""/>
+                            </div>
+                      	</div>
+                      	<div class="form-group form-field">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>CURRENT COMPANY</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="current_company" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>CURRENT DESGNATION</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <select name="designation" class="form-control o_website_form_input">
+	 								<t t-foreach="current_designation_list" t-as="a">
+	 									<option t-att-value="'%s' % (a.id)" t-esc="a.name" style="color:#515493;"/>
+	 								</t>
+ 								</select>
+                            </div>
+                       </div>
+                       <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>CURRENT CTC</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input style="color:#515493;" type="text" class="form-control o_website_form_input" name="current_ctc" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>PRACTICE AREA</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <select name="practice" class="form-control o_website_form_input">
+	 								<t t-foreach="practice_area_list" t-as="a">
+	 									<option t-att-value="'%s' % (a.id)" t-esc="a.name" style="color:#515493;"/>
+	 								</t>
+ 								</select>
+                            </div>
+                       	</div>
+                       	<div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>COLLEGE</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <select name="college" class="form-control o_website_form_input">
+	 								<t t-foreach="college_list" t-as="a">
+	 									<option t-att-value="'%s' % (a.id)" t-esc="a.name" style="color:#515493;"/>
+	 								</t>
+ 								</select>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>DEGREE</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <select name="degree" class="form-control o_website_form_input">
+	 								<t t-foreach="degree_list" t-as="a">
+	 									<option t-att-value="'%s' % (a.id)" t-esc="a.name" style="color:#515493;"/>
+	 								</t>
+ 								</select>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>GRADUATION YEAR</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <select name="graduation" class="form-control o_website_form_input">
+	 								<t t-foreach="graduation_year_list" t-as="a">
+	 									<option t-att-value="'%s' % (a.id)" t-esc="a.name" style="color:#515493;"/>
+	 								</t>
+ 								</select>
+                            </div>
+                        </div>
+                        <div>
+	                    	<h2 class="text-center">
+	                			<b><u>Additional Qualifications</u></b>
+	            			</h2>
+                    	</div>
+                    	<div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <strong>LLM(IF APPLICABLE)</strong>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" name="llm" style="color:#515493;"/>
+                            </div>
+                        </div>
+                        <div>
+	                    	<h2 class="text-center">
+	                			<b><u>Resume &amp; Photo</u></b>
+	            			</h2>
+                    	</div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <strong>ATTACH RESUME/CV</strong>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <input type="file" class="form-control o_website_form_input" name="resume"/>
+                          </div>
+                         </div>
+                         <div class="form-group form-field o_website_form_required_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <strong>ATTACH PHOTOGRAPH</strong>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <input type="file" accept="image/*,application/pdf" class="form-control o_website_form_input" name="photo"/>
+                          </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <strong>LINKEDIN PROFILE IF ANY</strong>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <input type="text" class="form-control o_website_form_input" name="linkedin" style="color:#515493;"/>
+                          </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <strong>MESSAGE</strong>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <textarea class="form-control o_website_form_input" name="message" required="" style="color:#515493;"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group" align="center">
+                            <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                            <button type="submit" name="submit" style="width:200px;">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    </section>
+            </div>
+        </div>
+        </div>
+    </t>
+	</template>
+	
+	<!-- This Template if for redirect from Application form to Success -->
+	<template id="success" name="Success">
+    <t t-call="website.layout">
+        <div id="wrap" class="container" style="background-color:#87ceeb;">
+        <div class="oe_structure"/>
+            <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Congratulations!</h1>
+                <p class="text-center">
+                    Your application has been posted successfully.
+                </p>
+        	</div>
+        </div>
+       	</div>
+    </t>
+   	</template>
+ </odoo>

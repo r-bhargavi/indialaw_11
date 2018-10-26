@@ -1,0 +1,18 @@
+<!--This is the demo Data for Degree-->
+
+<odoo>
+    <data noupdate="1">
+	    <record model="hr.recruitment.degree" id="d1">
+	        <field name="name">Law</field>
+	    </record>
+	    <record model="hr.recruitment.degree" id="d2">
+	        <field name="name">B.A. LLB(Hons.)</field>
+	    </record>
+	    <record model="hr.recruitment.degree" id="d3">
+	        <field name="name">BSL LLB</field>
+	    </record>
+	    <record model="hr.recruitment.degree" id="d4">
+	        <field name="name">B.Sc. LL.B(Hons.)</field>
+	    </record>
+	</data>
+</odoo>

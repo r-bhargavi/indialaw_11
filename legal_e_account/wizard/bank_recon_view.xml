@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+		 	<record id='legale_bank_recon_form_view' model="ir.ui.view">
+	            <field name="name">Check Print</field>
+	            <field name="model">legale.bank.recon</field>
+	            <field name="type">form</field>
+	            <field name="arch" type="xml">
+	                <form string="Check Print" version="7.0" >
+	                	<group>
+	                        <group>
+	                           <field name="partner_id" required="1" domain="[('is_company', '=', True)]"/>
+	                           <field name="date" required="1"/>
+	                        </group>
+	                        <group>
+	                           <field name="amount"  required="1"/>
+	                           <field name="acc_payee"/>
+	                        </group>
+                        </group>
+                        
+                        <footer>
+	                        <button name="print_check" string="Print" type="object" class="oe_highlight"/>
+	                        or
+	                        <button string="Cancel" class="oe_link" special="cancel" />
+	                    </footer>
+                        
+	                </form>
+	            </field>
+	        </record>
+
+        <record id="action_legale_check_print_form_view" model="ir.actions.act_window">
+             <field name="name">Check Print</field>
+             <field name="res_model">legale.check.print</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="target">new</field>
+        </record>
+        
+        <menuitem id="menu_legale_check_print_main" name="Check Print" groups="account.group_account_manager"  parent="account.menu_finance" sequence="4"/>
+     	
+        <menuitem parent="menu_legale_check_print_main" id="action_legale_check_print_menu" action="action_legale_check_print_form_view" sequence="10"/>
+		
+        
+    </data>
+</openerp>

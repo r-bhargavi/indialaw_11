@@ -1,0 +1,159 @@
+<odoo>
+	<data>
+	<!-- Inherited View of hr.applicant -->
+		<record id="hr_applicant_inherit_view" model="ir.ui.view">
+			<field name="name">hr.applicant.inherit.view</field>
+			<field name="model">hr.applicant</field>
+			<field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
+			<field name="arch" type="xml">
+				<field name="partner_name" position="after">
+					<div>
+						<label for="partner_surname" class="oe_edit_only"/>
+						<field name="partner_surname"/>
+					</div>
+				</field>
+				<field name="email_from" position="after">
+					<field name="date_of_birth"/>
+				</field>
+				<field name="partner_phone" position="after">
+					<field name="alternate_phone_number"/>
+				</field>
+				<field name="partner_mobile" position="after">
+					<field name="professional_experience"/>
+				</field>
+				<field name="type_id" position="after">
+					<field name="current_company"/>
+				</field>
+				<field name="current_company" position="after">
+					<field name="current_designation"/>
+				</field>
+				<field name="reference" position="after">
+					<field name="current_ctc"/>
+				</field>
+				<field name="current_ctc" position="after">
+					<field name="practice_area"/>
+				</field>
+				<field name="practice_area" position="after">
+					<field name="college"/>
+				</field>
+				<field name="college" position="after">
+					<field name="graduation_year"/>
+				</field>
+				<field name="graduation_year" position="after">
+					<field name="llm"/>
+				</field>
+				<field name="llm" position="after">
+					<field name="linkedin_profile"/>
+				</field>
+				<!--<field name="linkedin_profile" position="after">
+					<field name="resume"/>
+				</field>-->
+				<!--<field name="resume" position="after">
+					<field name="photo"/>
+				</field>-->
+			</field>
+		</record>
+		<!-- This is View is for Practice Area form-->
+		<record id="practice_area_master_form_view" model="ir.ui.view">
+			<field name="name">practice.area.master.form.view</field>
+			<field name="model">practice.area.master</field>
+			<field name="arch" type="xml">
+				<form string="Practice Area Master">
+					<group>
+						<group>
+							<field name="name"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+		<!-- This is View is for Practice Area tree-->
+		<record id="practice_area_master_tree_view" model="ir.ui.view">
+			<field name="name">practice.area.master.tree.view</field>
+			<field name="model">practice.area.master</field>
+			<field name="arch" type="xml">
+				<tree string="Practice Area Master">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+		<!-- This is action for Practice Area form and tree-->
+		<record id="action_practice_area_master" model="ir.actions.act_window">
+            <field name="name">Practice Area Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">practice.area.master</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- this is the menu for Practice Area Master -->
+		<menuitem id="practice_area_master_menu" parent="hr_recruitment.menu_hr_recruitment_configuration" name="Practice Area" action="action_practice_area_master"/>
+		<!--This view is for College Master form-->
+		<record id="college_master_form_view" model="ir.ui.view">
+			<field name="name">college.master.form.view</field>
+			<field name="model">college.master</field>
+			<field name="arch" type="xml">
+				<form string="College Master">
+					<group>
+						<group>
+							<field name="name"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+		<!--This view is for College Master tree-->
+		<record id="college_master_tree_view" model="ir.ui.view">
+			<field name="name">college.master.tree.view</field>
+			<field name="model">college.master</field>
+			<field name="arch" type="xml">
+				<tree string="College Master">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+		<!-- This action is for College Master form and tree view -->
+		<record id="action_college_master" model="ir.actions.act_window">
+			<field name="name">College Master</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">college.master</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!-- This Menu for College Master -->
+		<menuitem id="college_master_menu" parent="hr_recruitment.menu_hr_recruitment_configuration" name="College Master" action="action_college_master"/>
+		<!-- This is form View of Year Master -->
+		<record id="year_master_form_view" model="ir.ui.view">
+			<field name="name">year.master.form.view</field>
+			<field name="model">year.master</field>
+			<field name="arch" type="xml">
+				<form string="Year Master">
+					<group>
+						<group>
+							<field name="name"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+		<!-- This is tree View of Year Master -->
+		<record id="year_master_tree_view" model="ir.ui.view">
+			<field name="name">year.master.tree.view</field>
+			<field name="model">year.master</field>
+			<field name="arch" type="xml">
+				<tree string="Year Master">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+		<!-- This Action is for Year master form and tree view -->
+		<record id="action_year_master" model="ir.actions.act_window">
+			<field name="name">Year Master</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">year.master</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!-- This is Menu for Year Master -->
+		<menuitem id="year_master_menu" parent="hr_recruitment.menu_hr_recruitment_configuration" name="Year Master" action="action_year_master"/>
+	</data>
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="message_view" model="ir.ui.view">
+            <field name="name">Message</field>
+            <field name="model">message.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Message">
+                    <group>
+                    <p>Are you sure you want to proceed without loan. ?</p>
+                    </group>
+                    <!--<field name="name"/>-->
+                    <footer>
+                        <button string="Confirm" type="object"  name="confirm"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_message_view" model="ir.actions.act_window">
+             <field name="name">Message</field>
+             <field name="res_model">message.wizard</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="message_view"/>
+             <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+    </data>
+</odoo>

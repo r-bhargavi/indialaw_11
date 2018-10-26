@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_arbitrator_master_filter" model="ir.ui.view">
+            <field name="name">arbitrator.master.select</field>
+            <field name="model">arbitrator.master</field>
+            <field name="arch" type="xml">
+                <search string="Search Arbitrator Master">
+                    <field name="name"/>
+                    <field name="number"/>
+                    <field name="phone" />
+                    <field name="email" />
+               </search>
+            </field>
+        </record>
+        <record id="arbitrator_master_tree" model="ir.ui.view">
+            <field name="name">arbitrator.master.tree</field>
+            <field name="model">arbitrator.master</field>
+            <field name="arch" type="xml">
+                <tree string="Arbitrator Master">
+                    <field name="name"/>
+                    <field name="number"/>
+                </tree>
+            </field>
+        </record>
+        <record id="arbitrator_master_form" model="ir.ui.view">
+            <field name="name">arbitrator.master.form</field>
+            <field name="model">arbitrator.master</field>
+            <field name="arch" type="xml">
+                <form string="Arbitrator Master">
+	                <sheet>
+		                <group col='4' string="Arbitrators">
+		                    <field name="name" colspan="2"/>
+		                    <field name="number"  colspan="2"/>
+		                </group>
+		                <group>
+                        <group col="4" string="Address" colspan="2">
+                            <field name="street" placeholder="Street..."/>
+                            <field name="street2" placeholder="Street2..."/>
+                            <field name="city" placeholder="City..."/>
+                            <field name="country_id" placeholder="Country..."/>
+                            <field name="state_id" placeholder="State..." domain="[('country_id','=',country_id)]"/>
+                            <field name="district_id" placeholder="District..."  domain="[('state_id','=',state_id)]" context="{'state_id':state_id}"/>
+                            <field name="zip" placeholder="Pin..."/>
+                        </group>
+                        <group col="4" colspan="2">
+                            <field name="phone" />
+                            <field name="email" />
+                        </group>
+                        </group>
+                        <group string="Bank Accounts">
+                        <field name="bank_ids" colspan="4" nolabel="1"/>
+                        </group>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_arbitrator_master_form" model="ir.actions.act_window">
+            <field name="name">Arbitrator Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">arbitrator.master</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="arbitrator_master_tree"/>
+        </record>
+        <menuitem id="sub_menu_arbitrator_master" action="action_arbitrator_master_form" name="Arbitrator Master" parent="sub_menu_masters" sequence="8"/>            
+               
+	</data>
+</odoo>

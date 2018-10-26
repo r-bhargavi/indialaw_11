@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+		
+		<record id="legal_e_account_purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">legal_e_account.purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="legal_e.purchase_order_form_inherit"/>
+            <field name="arch" type="xml">                     
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="office_id" required="0"/>
+                    <field name="division_id" required="0" domain="[('office_id', '=', office_id)]"/>
+                </xpath>
+                
+                <!--<xpath expr="//field[@name='invoiced']" position="after">-->
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="invoice_number"/>
+                </xpath>
+			</field>
+		</record>
+		
+		
+    </data>
+</odoo>

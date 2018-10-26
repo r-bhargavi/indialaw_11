@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        
+    <!-- Salary Rules -->
+    
+    	<record id="hr_payroll.hr_rule_basic" model="hr.salary.rule">
+            <field name="name">Basic</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">BASIC</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = ((contract.wage - 800)/140) * 100</field>
+        </record>
+        
+        <record id="hr_rule_conveyance" model="hr.salary.rule">
+            <field name="name">Conveyance</field>
+            <field name="sequence" eval="2"/>
+            <field name="code">Conveyance</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix">800</field>
+        </record>
+        
+        <record id="hr_rule_hra" model="hr.salary.rule">
+            <field name="name">HRA</field>
+            <field name="sequence" eval="3"/>
+            <field name="code">HRA</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = ((contract.wage - 800)/140) * 40
+			</field>
+        </record>
+        
+        <record id="hr_rule_overtime" model="hr.salary.rule">
+            <field name="name">Overtime</field>
+            <field name="sequence" eval="4"/>
+            <field name="code">OT</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">hrs = worked_days.OT and worked_days.OT.number_of_hours or 0
+result = 20000 >= contract.wage and ((contract.wage/30/8.5) * hrs) or 0
+			</field>
+        </record>
+        
+        <record id="hr_rule_others" model="hr.salary.rule">
+            <field name="name">Others</field>
+            <field name="sequence" eval="5"/>
+            <field name="code">Others</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = payslip.mobile_expense + payslip.train_pass + payslip.travel_expense
+			</field>
+        </record>
+        
+        <record id="hr_rule_incentives" model="hr.salary.rule">
+            <field name="name">Incentives</field>
+            <field name="sequence" eval="6"/>
+            <field name="code">incentives</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = payslip.incentives
+			</field>
+        </record>
+        
+        <record id="hr_rule_arrears" model="hr.salary.rule">
+            <field name="name">Arrears</field>
+            <field name="sequence" eval="7"/>
+            <field name="code">Arrears</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = payslip.arrears
+			</field>
+        </record>
+        
+        <record id="hr_rule_leave" model="hr.salary.rule">
+            <field name="name">Leave</field>
+            <field name="sequence" eval="8"/>
+            <field name="code">Leave</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">days = worked_days.Unpaid and worked_days.Unpaid.number_of_days or 0
+result =- (contract.wage/30) * days
+			</field>
+        </record>
+        
+        <record id="hr_rule_tax" model="hr.salary.rule">
+            <field name="name">Prof.Tax</field>
+            <field name="sequence" eval="9"/>
+            <field name="code">Tax</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip.tax
+			</field>
+        </record>
+        
+        <record id="hr_rule_loan" model="hr.salary.rule">
+            <field name="name">Loan</field>
+            <field name="sequence" eval="10"/>
+            <field name="code">Loan</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = payslip.loan
+			</field>
+        </record>
+        
+        <record id="hr_rule_advance" model="hr.salary.rule">
+            <field name="name">Advance</field>
+            <field name="sequence" eval="11"/>
+            <field name="code">Advance</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = payslip.advance
+			</field>
+        </record>
+        
+        <record id="hr_rule_prof_fee" model="hr.salary.rule">
+            <field name="name">Prof.Fees</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">Fee</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage</field>
+        </record>
+        
+        <record id="hr_rule_TDS" model="hr.salary.rule">
+            <field name="name">TDS</field>
+            <field name="sequence" eval="9"/>
+            <field name="code">TDS</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = (contract.wage) / 10</field>
+        </record>
+        
+        
+        <!-- Salary Structures -->
+        
+        <record id="structure_employees" model="hr.payroll.structure">
+            <field name="code">Employees</field>
+            <field name="name">Structure for Employees</field>
+            <field name="parent_id"></field>
+            <field eval="[(6, 0, [ref('hr_payroll.hr_rule_basic'), ref('hr_rule_conveyance'), ref('hr_rule_hra'),
+            				ref('hr_rule_overtime'), ref('hr_rule_others'), ref('hr_rule_incentives'), ref('hr_rule_arrears'),
+            				ref('hr_rule_leave'), ref('hr_rule_tax'), ref('hr_rule_loan'), ref('hr_rule_advance'), 
+            				ref('hr_payroll.hr_rule_taxable'), ref('hr_payroll.hr_rule_net')])]" name="rule_ids"/>
+        </record>
+        
+        <record id="structure_lawyers" model="hr.payroll.structure">
+            <field name="code">Lawyers</field>
+            <field name="name">Structure for Lawyers</field>
+            <field name="parent_id"></field>
+            <field eval="[(6, 0, [ref('hr_rule_prof_fee'), ref('hr_rule_overtime'), ref('hr_rule_incentives'),
+            				ref('hr_rule_others'), ref('hr_rule_arrears'), ref('hr_rule_leave'), ref('hr_rule_TDS'),
+            				ref('hr_rule_loan'), ref('hr_rule_advance'), ref('hr_payroll.hr_rule_taxable'), 
+            				ref('hr_payroll.hr_rule_net')])]" name="rule_ids"/>
+        </record>
+        
+    </data>
+</openerp>

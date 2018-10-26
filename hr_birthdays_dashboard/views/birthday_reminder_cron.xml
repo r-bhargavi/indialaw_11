@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+   
+    <record model="ir.cron" id="availability_create_cron">
+		<field name="name">Birthday Reminder </field>
+		<field name="model_id" ref="model_res_partner"/>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="numbercall">-1</field>
+		<field name="doall" eval="False"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_birthday_reminder()</field>
+	</record>
+
+	<record model="ir.cron" id="hr_birthday_cron">
+		<field name="name">Employee Birthday Reminder </field>
+		<field name="model_id" ref="model_hr_employee"/>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="numbercall">-1</field>
+		<field name="doall" eval="False"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_hr_birthday_reminder()</field>
+	</record>
+</odoo>

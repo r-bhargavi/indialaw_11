@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+
+    <record id="group_cancel_invoices" model="res.groups">
+        <field name="name">Cancel Invoices</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+    
+    <record id="legal_e_accountant_hr_expense" model="ir.rule">
+            <field name="name">HR Expense Account</field>
+            <field ref="hr_expense.model_hr_expense_expense" name="model_id"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+            <field name="groups" eval="[(4,ref('account.group_account_manager'))]"/>
+        </record>
+        
+        
+      
+      
+      <!--  <record id="legal_e_csm_account_invoice" model="ir.rule">
+            <field name="name">CSM Invoice</field>
+            <field ref="account.model_account_invoice" name="model_id"/>
+            <field name="domain_force">[('client_service_manager_id.user_id', '=', user.id)]</field>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+            <field name="groups" eval="[(4,ref('legal_e.group_legal_e_client_service_manager'))]"/>
+        </record>
+        
+        
+        
+        <record id="legal_e_csm_consolidated_bill" model="ir.rule">
+            <field name="name">CSM Consolidated Bill</field>
+            <field ref="legal_e.model_consolidated_bill" name="model_id"/>
+            <field name="domain_force">[('client_service_manager_id.user_id', '=', user.id)]</field>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+            <field name="groups" eval="[(4,ref('legal_e.group_legal_e_client_service_manager'))]"/>
+        </record>
+        
+        
+        
+        
+         <record id="legal_e_invoicing_account_invoice" model="ir.rule">
+            <field name="name">Invoicing &amp; Payments Invoice</field>
+            <field ref="account.model_account_invoice" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+            <field name="groups" eval="[(4,ref('account.group_account_invoice'))]"/>
+        </record>
+        
+        
+        
+        <record id="legal_e_invoicing_consolidated_bill" model="ir.rule">
+            <field name="name">Invoicing &amp; Payments Consolidated Bill</field>
+            <field ref="legal_e.model_consolidated_bill" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+            <field name="groups" eval="[(4,ref('account.group_account_invoice'))]"/>
+        </record>
+        
+         -->
+   
+</data>
+</openerp>
