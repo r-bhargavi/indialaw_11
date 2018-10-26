@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <data>
+        <menuitem id="sub_menu__daily_report"  name="Daily Report" parent="account.menu_finance" sequence="7"/>            
+            <record id="daily_csm_report_form" model="ir.ui.view">
+            <field name="name">Daily CSM Report</field>
+            <field name="model">daily.csm.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Daily CSM Report">
+                    <group>
+                        <field name="today_date" invisible="1"/>
+                    </group>
+                    
+                    <footer>
+                        <button name="print_excel_report" string="Genrate Daily CSM Report"  type="object" colspan="1"/>
+                         or
+                         <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>                                                       
+                </form>
+            </field>
+        </record>        
+        <record id="action_daily_csm_report_form" model="ir.actions.act_window">
+             <field name="name">Daily CSM Report</field>
+             <field name="res_model">daily.csm.report</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="daily_csm_report_form"/>
+             <field name="target">new</field>
+            <field name="multi">True</field>    
+        </record>
+        
+        <menuitem id="sub_menu__daily_csm_report" action="action_daily_csm_report_form" name="Daily CSM Report" parent="legal_e_report.sub_menu__daily_report" sequence="2"/>            
+               
+    </data>
+</odoo>

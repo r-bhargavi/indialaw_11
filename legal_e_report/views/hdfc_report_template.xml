@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="hdfc_custom_template">
+             <t t-call="legal_e_report.india_law_layout_invoice"> 
+            <br/>
+            <t t-call="web.basic_layout">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                <div class="page">
+                    <table width="100%">
+                        <td style="padding: 5px; text-align:left;">
+                            <span style="font-size:14">To,</span><br/>
+                            <span style="font-size:14" t-field="o.partner_id"/><br/>
+                            <span style="font-size:14" t-field="o.partner_id.street"/><br/>
+                            <span style="font-size:14" t-field="o.partner_id.street2"/><br/>
+                            <span style="font-size:14" t-field="o.partner_id.city"/><br/>
+                            <span style="font-size:14" t-field="o.partner_id.state_id"/>
+                            <span>-</span>
+                            <span style="font-size:14" t-field="o.partner_id.zip"/>
+                        </td>
+                    </table><!--
+-->                    <table width="100%">
+                        <tr>
+                        <td  class="text-center" >
+                        <u><b><span style="font-size:16">Bill</span></b></u>
+                        </td>
+                    </tr>
+                </table><br/><!--
+-->                <table>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Bill Date</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                        <td>
+                            <span style="padding:5px" t-field="o.custom_bill_date"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Vendor Code</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Product</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Name</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                         <td>
+                            <span style="padding:5px" t-field="o.company_id.name"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Bank</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                        <td>
+                            <span style="padding:5px">HDFC Bank</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Branch</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                        <td>
+                            <span style="padding:5px">Juinagar</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">A/c no</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                        <td>
+                            <span style="padding:5px">50200017579615</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">IFSC Code</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                         <td>
+                            <span style="padding:5px">50200017579615</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">SWIFT CODE:</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                         <td>
+                            <span style="padding:5px">HDFCINBB</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Branch Add.</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Location</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                        <td>
+                            <span style="padding:5px">Mumbai</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Invoice for the Period</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Bill No.</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Pan No.</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px">
+                            <span style="font-size:14">Service Tax No.</span>
+                        </td>
+                        <td>
+                            <span style="padding:10px">:</span>
+                        </td>
+                        <td>
+                            <span style="padding:5px">NA</span>
+                        </td>
+                    </tr>
+                </table><br/>
+                <table width="80%">
+                    <tr>
+                        <td style="text-align:left;border-bottom:1px solid" width="40%" border-bottom="1px solid">
+                            <b><span>Description</span></b>
+                        </td>
+                        <td style="text-align:right;padding:5px;border-bottom:1px solid" width="40%" border-bottom="1px solid">
+                            <b><span>Amount</span></b>
+                        </td>
+                    </tr>
+                    <tr>
+                         <td style="text-align:left;padding:8px" width="50%">
+                            <span>Towards are professional cahrges for tilte opinion and Vetting</span>
+                        </td>
+                        <td style="text-align:right;padding:8px" width="30%" border-bottom="1px solid">
+                            <span>:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:8px" width="50%">
+                            <span>Charges towards two search applied at Chevayur Sub registry office,Calicut(Doc.nos:2987/1995&amp;2193/2005</span>
+                        </td>
+                        <td style="padding:8px;text-align:right" width="30%">
+                            <span>:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span>Total Bill amount</span>
+                        </td>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span>:</span>
+                        </td>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span t-field="o.amount_untaxed"></span>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span>Service Tax</span>
+                        </td>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span>:</span>
+                        </td>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span>0.0</span>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td style="text-align:right;padding:5px" width="40%">
+                            <b><span>Total Bill amount</span></b>
+                        </td>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span>:</span>
+                        </td>
+                        <td style="text-align:right;padding:8px" width="40%">
+                            <span t-field="o.amount_untaxed"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;padding:5px;border-bottom:1px solid" width="80%">
+                        <b><span t-esc="o.amount_total"></span></b>
+                        </td>
+                    </tr>
+                </table><br/><!--
+-->                <table>
+                    <tr style="border-bottom:none">
+                            <td style=" padding: 5px; width:60%" colspan="3">
+                                <span style="font-size:12">1. Please make the payment within seven days from the date of bill</span><br/>
+                                <span style="font-size:12">2. Quote our Bill No. with your remittance</span><br/>
+                                <span style="font-size:12">3. Payment to be made by A/c. payee cheque/demand draft or NEFT/RTGS/ONLINE payment to HDFC bank, Juinagar</span><br/>
+                                <span style="font-size:12">Branch, A/c no. 50200017579615 IFSC Code: HDFC0003953 SWIFT CODE: HDFCINBB favouring “INDIALAW LLP”</span><br/>
+                                <b><span style="font-size:12">4. GST , if any will be paid by the “SERVICE RECEIVER“ as INDIALAW LLP being a Legal service provider falls</span></b><br/>
+                                <b><span style="font-size:12">under the Reverse Charge Category as approved by GST Council</span></b><br/>
+                                <span style="font-size:12">5. Registration :- Central Government vide notification No. 5/2017 dated 19th June 2017 exempted Service falls under</span><br/>
+                                <span style="font-size:12">Reverse Charge Category from obtaining registration under the Act</span><br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="80%">
+                         <tr>
+                            <td width="50%">
+                                
+                            </td>
+                            <td width="30%" style="border-top:1px solid; text-align:right">
+                                <b><span style="font-size:14">AUTHORISED SIGNATORY</span></b>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+        </t>
+        </t>
+    </template>
+
+
+
+
+
+
+    <template id="hdfc_invoice_custom_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="legal_e_report.hdfc_custom_template" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+</data>
+</odoo>

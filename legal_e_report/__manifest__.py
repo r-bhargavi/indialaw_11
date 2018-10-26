@@ -16,14 +16,18 @@
 
     ],
     'data': [
+        'wizard/daily_csm_report.xml',
+        'wizard/daily_collection_report_view.xml',
+        'wizard/daily_crm_report_view.xml',
+        'wizard/detailed_billing_report_view.xml',
         'views/india_law_custom_header.xml',
-        'views/kotak_page_format.xml',
-        'views/cbi_page_format.xml',
-        'views/hdfc_page_format.xml',
+        'views/report.xml',
         'views/bill_of_cost_hdfc.xml',
+        'views/hdfc_report_template.xml',
         'views/bill_of_cost_cbi.xml',
         'views/bill_of_cost_kotak.xml',
         'views/custom_india_law_page.xml',
+        'views/vodafone_template.xml',
     ],
 
     'installable': True,
