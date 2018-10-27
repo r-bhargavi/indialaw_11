@@ -235,7 +235,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:left;padding:5px;border-bottom:1px solid" width="80%">
-                        <b><span t-esc="o.amount_total"></span></b>
+                        <b><span style="font-size:18;" t-esc="o.get_num2words_amount(o.amount_total)"/></b>
                         </td>
                     </tr>
                 </table><br/><!--

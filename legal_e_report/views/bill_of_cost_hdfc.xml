@@ -90,8 +90,8 @@
                         </tr>
 
                         <tr style="border:1px solid">
-                            <td style="border:1px solid; padding: 5px;text-align:right" colspan="3">
-                                <!--<b><span style="font-size:14" t-field="o.amount_total"/></b>-->
+                            <td style="border:1px solid; padding: 5px;text-align:left" colspan="3">
+                                <b><span style="font-size:18;" t-esc="o.get_num2words_amount(o.amount_total)"/></b>
                             </td>
                         </tr>
 

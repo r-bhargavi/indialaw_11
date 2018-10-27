@@ -3,7 +3,7 @@
 
 from odoo import models, fields, api, _
 from datetime import datetime
-
+from num2words import num2words
 
 class AccountInvoice(models.Model):
 
@@ -27,11 +27,12 @@ class AccountInvoice(models.Model):
                 rows += "</tr>"
                 counter += 1
             return rows
-    @api.multi
-    def conv_amount_to_text(self):
-        amount=self.company_id.currency_id.amount_to_text(self.amount_untaxed)
-        print(amount)
-        return amount
+
+    def get_num2words_amount(self, amount):
+        amt_word = num2words(amount, lang='en_IN').replace('point', 'rupees and')
+        print('-------------',amt_word)
+        amt_word = str(amt_word).title()
+        return amt_word + ' Paisa Only'
 
 
 
