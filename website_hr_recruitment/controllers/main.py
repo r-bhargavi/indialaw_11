@@ -114,8 +114,6 @@ class WebsiteHrRecruitment(http.Controller):
                  ], type='http', auth="public", website=True,csrf=False)
     def website_mydetail_controller_save(self,redirect=None, **post):
         if post:
-            print("!!!!!!!!!!!!!!!!",post)
-#             print("!!!!!!!!!!!!!!!!",base64.encodestring(post['resume'].read()))
             self._process(post)
             return request.redirect('/application/success')
         return request.render("website_hr_recruitment.success",{})

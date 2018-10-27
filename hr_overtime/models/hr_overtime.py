@@ -24,7 +24,6 @@ class HrOvertime(models.Model):
     @api.multi
     def _employee_get(self):
         ids = self.env['hr.employee'].search( [('user_id', '=', self.env.user.id)])
-        print("idsssssssssssssssss", ids, ids.name)
         if ids:
             return ids[0]
         return False
@@ -112,10 +111,8 @@ class HrOvertime(models.Model):
     @api.multi
     def overtime_validate(self):
         obj_emp = self.env['hr.employee']
-        print("obj_empobj_empobj_empobj_emp", obj_emp)
         ids2 = obj_emp.search([('user_id', '=', self.user_id.id)])
         manager = ids2 and ids2[0] or False
-        print("managermanagermanagermanager", manager)
         if self.overtime_type_id.double_validation == True:
             return self.write({'state': 'validate1', 'manager_id': manager.id})
         else:

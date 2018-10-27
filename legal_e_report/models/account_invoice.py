@@ -30,7 +30,6 @@ class AccountInvoice(models.Model):
 
     def get_num2words_amount(self, amount):
         amt_word = num2words(amount, lang='en_IN').replace('point', 'rupees and')
-        print('-------------',amt_word)
         amt_word = str(amt_word).title()
         return amt_word + ' Only'
 

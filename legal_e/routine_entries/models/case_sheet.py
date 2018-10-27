@@ -2910,7 +2910,6 @@ class AccountInvoice(models.Model):
                     'default_composition_mode': 'comment',
                     'mark_invoice_as_sent': True,
                     })
-                print('context===',context)
                 return {
                     'type': 'ir.actions.act_window',
                     'view_type': 'form',
