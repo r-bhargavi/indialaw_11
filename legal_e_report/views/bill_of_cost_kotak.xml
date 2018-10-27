@@ -11,8 +11,7 @@
                         <tr style="border:1px solid">
                             <td style="border:1px solid; padding: 5px; text-align:left; border-right:none">
                                 <span style="font-size:14"><b>Bill No :</b></span>
-                                <b><span style="font-size:14" t-field="o.sequence_number_next_prefix"/></b>
-                                <b><span style="font-size:14" t-field="o.sequence_number_next"/></b><br/>
+                                <b><span style="font-size:14" t-field="o.legale_number"/></b><br/>
                                 <b><span style="font-size:14"/>To,</b><br/>
                                 <b><span style="font-size:14" t-field="o.partner_id.name"/></b><br/>
                                 <span style="font-size:14" t-field="o.partner_id.street"/><br/>

@@ -22,7 +22,7 @@
 -->                    <table width="100%">
                         <tr>
                         <td  class="text-center" >
-                        <u><b><span style="font-size:16">Bill</span></b></u>
+                        <u><b><span style="font-size:16">Bill</span></b><b><span style="font-size:14" t-field="o.legale_number"/></b></u>
                         </td>
                     </tr>
                 </table><br/><!--
