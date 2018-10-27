@@ -32,7 +32,7 @@ class AccountInvoice(models.Model):
         amt_word = num2words(amount, lang='en_IN').replace('point', 'rupees and')
         print('-------------',amt_word)
         amt_word = str(amt_word).title()
-        return amt_word + ' Paisa Only'
+        return amt_word + ' Only'
 
 
 
