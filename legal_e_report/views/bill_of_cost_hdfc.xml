@@ -82,9 +82,9 @@
                                 <span style="font-size:14"><b>LESS ADVANCE</b></span><br/>
                             </td>
                             <td style="border:1px solid; padding: 5px; text-align:center">
-<!--                                <b><span style="font-size:14" t-field="o.particular_amount_untaxed" t-options='{"widget": "monetary", "display_currency":o.company_id.currency_id}'/></b><br/>
+                                <b><span style="font-size:14" t-field="o.particular_amount_untaxed" t-options='{"widget": "monetary", "display_currency":o.company_id.currency_id}'/></b><br/>
                                 <span style="font-size:14"></span><br/>
-                                <b><span style="font-size:14" t-field="o.particular_amount_untaxed" t-options='{"widget": "monetary", "display_currency":o.company_id.currency_id}'/></b>-->
+                                <!--<b><span style="font-size:14" t-field="o.particular_amount_untaxed" t-options='{"widget": "monetary", "display_currency":o.company_id.currency_id}'/></b>-->
                             </td>
                         </tr>
 

@@ -22,7 +22,7 @@
 -->                    <table width="100%">
                         <tr>
                         <td  class="text-center" >
-                        <u><b><span style="font-size:16">Bill</span></b><b><span style="font-size:14" t-field="o.legale_number"/></b></u>
+                        <u><b><span style="font-size:16">Bill : </span></b><b> <span style="font-size:14" t-field="o.legale_number"/></b></u>
                         </td>
                     </tr>
                 </table><br/><!--
@@ -219,10 +219,10 @@
                             <span>:</span>
                         </td>
                         <td style="text-align:right;padding:8px" width="40%">
-                            <span>0.0</span>
+                            <span t-field="o.amount_tax"></span>
                         </td>
                     </tr>
-                     <tr>
+<!--                     <tr>
                         <td style="text-align:right;padding:5px" width="40%">
                             <b><span>Total Bill amount</span></b>
                         </td>
@@ -232,7 +232,7 @@
                         <td style="text-align:right;padding:8px" width="40%">
                             <span t-field="o.amount_untaxed"></span>
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td style="text-align:left;padding:5px;border-bottom:1px solid" width="80%">
                         <b><span style="font-size:18;" t-esc="o.get_num2words_amount(o.amount_total)"/></b>
