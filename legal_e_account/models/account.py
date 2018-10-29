@@ -36,9 +36,9 @@ class AccountInvoice(models.Model):
             total_expense,total_proffee = 0.0,0.0
             if invoice.invoice_line_ids:
                 for line in invoice.invoice_line_ids:
-                    if line.account_id.code ==  '2100001':
+                    if line.account_id.code ==  '2100004':
                         total_expense += line.price_subtotal
-                    elif line.account_id.code ==  '2100004':
+                    elif line.account_id.code ==  '2100001':
                         total_proffee += line.price_subtotal
             invoice.total_expense = total_expense
             invoice.total_proffee = total_proffee
