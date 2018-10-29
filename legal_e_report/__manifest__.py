@@ -20,6 +20,7 @@
         'wizard/daily_collection_report_view.xml',
         'wizard/daily_crm_report_view.xml',
         'wizard/detailed_billing_report_view.xml',
+        'wizard/pending_bill_report_view.xml',
         'views/india_law_custom_header.xml',
         'views/report.xml',
         'views/bill_of_cost_hdfc.xml',
