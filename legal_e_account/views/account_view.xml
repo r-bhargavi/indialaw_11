@@ -71,6 +71,10 @@
               <field name="flg_tds_note" colspan="2"/>
               <field name="flg_pan_no" colspan="2" attrs="{'invisible':[('invoice_template','!=','general')]}"/>
             </field>
+            <field name="user_id" position="after">
+              <field name="total_proffee" colspan="2"/>
+              <field name="total_expense" colspan="2" />
+            </field>
             
             <field name="move_id" position="after">            
               <field name="assignee_id"/>
@@ -161,6 +165,8 @@
               <field name="assignee_id"/>
               <field name="client_service_manager_id"/>
               <field name="client_service_executive_id"/>
+              <field name="total_proffee" colspan="2"/>
+              <field name="total_expense" colspan="2" />
               <!--<field name="next_followup_date"/>-->
             </field>
              <field name="origin" position="attributes"> 

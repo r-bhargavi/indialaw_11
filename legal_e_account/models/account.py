@@ -29,6 +29,19 @@ class AccountInvoice(models.Model):
                     if m.journal_id.id ==  invoice.company_id.bad_debts_journal_id.id:
                         bad_debts += m.credit
             invoice.bad_debts = bad_debts
+    @api.multi
+    @api.depends('invoice_line_ids.account_id')
+    def _compute_expense_prof_fee(self):
+        for invoice in self:
+            total_expense,total_proffee = 0.0,0.0
+            if invoice.invoice_line_ids:
+                for line in invoice.invoice_line_ids:
+                    if line.account_id.code ==  '2100001':
+                        total_expense += line.price_subtotal
+                    elif line.account_id.code ==  '2100004':
+                        total_proffee += line.price_subtotal
+            invoice.total_expense = total_expense
+            invoice.total_proffee = total_proffee
     
     @api.multi
     @api.depends('invoice_followup_ids')
@@ -70,6 +83,8 @@ class AccountInvoice(models.Model):
     invoice_followup_ids=fields.One2many('account.invoice.followup', 'invoice_id', 'Invoice Followup')
 
     bad_debts=fields.Float(compute=_compute_bad_debts, string='Bad Debts', digits_compute=dp.get_precision('Account'))
+    total_expense=fields.Float(compute=_compute_expense_prof_fee, string='Total Expense', digits_compute=dp.get_precision('Account'))
+    total_proffee=fields.Float(compute=_compute_expense_prof_fee, string='Total Prof Fees', digits_compute=dp.get_precision('Account'))
         
     next_followup_date=fields.Date(compute="_compute_next_followup_date", string='Next Followup Date', store=True)
 #    next_followup_date=fields.date(compute="_compute_next_followup_date", type="date", string='Next Followup Date', store={
